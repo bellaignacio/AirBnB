@@ -7,6 +7,9 @@ const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
+// import routers
+const routes = require('./routes');
+
 // isProduction is true if the environment is in production (checks the backend/config/index.js file)
 const { environment } = require('./config');
 const isProduction = environment === 'production';
@@ -27,22 +30,32 @@ app.use(express.json());
 if (!isProduction) {
     // enable cors only in development
     app.use(cors());
-  }
+}
 
-  // helmet helps set a variety of headers to better secure your app
-  app.use(
+// helmet helps set a variety of headers to better secure your app
+app.use(
     helmet.crossOriginResourcePolicy({
-      policy: "cross-origin"
+        policy: "cross-origin"
     })
-  );
+);
 
-  // set the _csrf token and create req.csrfToken method
-  app.use(
+// set the _csrf token and create req.csrfToken method (protect against CSRF attacks)
+// add a _csrf cookie that is HTTP-only (can't be read by JS) to any server response
+// add a req.csrfToken method on all requests, whose value will be set to another cookies XSRF-TOKEN
+// XSRF-TOKEN cookie values needs to be sent in the header of any request (except GET)
+// header will be used to validate the _csrf cookie to confirm the request comes from an authorized site
+app.use(
     csurf({
-      cookie: {
-        secure: isProduction,
-        sameSite: isProduction && "Lax",
-        httpOnly: true
-      }
+        cookie: {
+            secure: isProduction,
+            sameSite: isProduction && "Lax",
+            httpOnly: true
+        }
     })
-  );
+);
+
+// connect all routers
+app.use(routes);
+
+// export Express application
+module.exports = app;

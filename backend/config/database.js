@@ -1,3 +1,5 @@
+// allows you to load the database configuration environment variables from the .env file into the config/index.js
+// allows you to define the global schema for the project
 const config = require('./index');
 
 module.exports = {

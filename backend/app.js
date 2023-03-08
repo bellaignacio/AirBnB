@@ -36,7 +36,7 @@ if (!isProduction) {
 // helmet helps set a variety of headers to better secure your app
 app.use(
     helmet.crossOriginResourcePolicy({
-        policy: "cross-origin"
+        policy: 'cross-origin'
     })
 );
 
@@ -49,7 +49,7 @@ app.use(
     csurf({
         cookie: {
             secure: isProduction,
-            sameSite: isProduction && "Lax",
+            sameSite: isProduction && 'Lax',
             httpOnly: true
         }
     })
@@ -61,7 +61,7 @@ app.use(routes);
 // resource-not-found error handler: catches unhandled requests and forwards to error handler
 app.use((_req, _res, next) => {
     const err = new Error("The requested resource couldn't be found.");
-    err.title = "Resource Not Found";
+    err.title = 'Resource Not Found';
     err.errors = { message: "The requested resource couldn't be found." };
     err.status = 404;
     next(err);
@@ -71,12 +71,12 @@ app.use((_req, _res, next) => {
 app.use((err, _req, _res, next) => {
     // check if error is a Sequelize error:
     if (err instanceof ValidationError) {
-      let errors = {};
-      for (let error of err.errors) {
-        errors[error.path] = error.message;
-      }
-      err.title = 'Validation error';
-      err.errors = errors;
+        let errors = {};
+        for (let error of err.errors) {
+            errors[error.path] = error.message;
+        }
+        err.title = 'Validation error';
+        err.errors = errors;
     }
     next(err);
 });

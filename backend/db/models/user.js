@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       return bcrypt.compareSync(password, this.hashedPassword.toString());
     }
     static getCurrentUserById(id) {
-      return User.scope("currentUser").findByPk(id);
+      return User.scope('currentUser').findByPk(id);
     }
     static async login({ credential, password }) {
       const { Op } = require('sequelize');
@@ -66,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
         // isEmail: false
         isNotEmail(value) {
           if (Validator.isEmail(value)) {
-            throw new Error ('Username cannot be an email.');
+            throw new Error('Username cannot be an email.');
           }
         }
       }

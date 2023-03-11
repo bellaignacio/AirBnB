@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasMany(models.Spot, { foreignKey: 'ownerId', onDelete: 'CASCADE', hooks: true });
     }
   }
   User.init({
@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     username: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(30),
       allowNull: false,
       unique: true,
       validate: {
@@ -72,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(256),
       allowNull: false,
       unique: true,
       validate: {

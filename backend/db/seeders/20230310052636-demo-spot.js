@@ -55,7 +55,7 @@ module.exports = {
         description: 'The hippest, earthiest spot on the street',
         price: 122
       }
-    ]);
+    ], {});
   },
 
   async down(queryInterface, Sequelize) {

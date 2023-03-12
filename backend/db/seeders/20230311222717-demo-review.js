@@ -50,7 +50,8 @@ module.exports = {
     options.tableName = 'Reviews';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      review: { [Op.in]: ['This mansion was the worst ever! So expensive..', 'Biggest (bungalow) bang for your buck, so worth it', 'Expensive townhome, but it was fun for the boys'] },
+      id: { [Op.in]: [1, 2, 3] },
+      // review: { [Op.in]: ['This mansion was the worst ever! So expensive..', 'Biggest (bungalow) bang for your buck, so worth it', 'Expensive townhome, but it was fun for the boys'] },
     }, {});
   }
 };

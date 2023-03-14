@@ -1,4 +1,4 @@
-// const moment = require('moment');
+const moment = require('moment');
 
 'use strict';
 const {
@@ -26,14 +26,14 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     spotId: DataTypes.INTEGER,
     startDate: {
-      type: DataTypes.DATEONLY,
-      allowNull: false
-      // get: function() {
-      //   return moment.utc(this.getDataValue('startDate')).format('YYYY-MM-DD');
-      // }
+      type: DataTypes.DATE,
+      allowNull: false,
+      get: function() {
+        return moment.utc(this.getDataValue('startDate')).format('YYYY-MM-DD');
+      }
     },
     endDate: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: false,
       validate: {
         afterStartDate(value) {
@@ -41,10 +41,10 @@ module.exports = (sequelize, DataTypes) => {
             throw new Error('endDate cannot be on or before startDate')
           }
         }
+      },
+      get: function() {
+        return moment.utc(this.getDataValue('endDate')).format('YYYY-MM-DD');
       }
-      // get: function() {
-      //   return moment.utc(this.getDataValue('endDate')).format('YYYY-MM-DD');
-      // }
     }
   }, {
     sequelize,

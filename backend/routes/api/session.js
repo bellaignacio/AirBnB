@@ -18,7 +18,7 @@ const validateLogin = [
     handleValidationErrors
 ];
 
-// POST /api/session (login)
+// POST /api/session (log in a user)
 router.post('/', validateLogin, async (req, res, next) => {
     const { credential, password } = req.body;
     const user = await User.login({ credential, password });
@@ -44,14 +44,14 @@ router.post('/', validateLogin, async (req, res, next) => {
     });
 });
 
-// DELETE /api/session (logout)
+// DELETE /api/session (log out a user)
 router.delete('/', (_req, res) => {
         res.clearCookie('token');
         return res.json({ message: 'success' });
     }
 );
 
-// GET /api/session (get current user session)
+// GET /api/session (get the current user)
 router.get('/', requireAuth, restoreUser, (req, res) => {
     const { user } = req;
     if (user) {

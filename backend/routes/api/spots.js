@@ -6,6 +6,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
+// validate spot middleware
 const validateSpot = [
     check('address')
         .exists({ checkFalsy: true })
@@ -43,7 +44,7 @@ const validateSpot = [
     handleValidationErrors
 ];
 
-// DELETE /api/spots/:spotId
+// DELETE /api/spots/:spotId (delete a spot)
 router.delete('/:spotId', requireAuth, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
 
@@ -68,7 +69,7 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
     });
 })
 
-// PUT /api/spots/:spotId
+// PUT /api/spots/:spotId (edit a spot)
 router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
     const spot = await Spot.findByPk(req.params.spotId);
@@ -93,7 +94,7 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     res.json(spot);
 });
 
-// POST /api/spots/:spotId/images
+// POST /api/spots/:spotId/images (add an image to a spot based on the spot's id)
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const { url, preview } = req.body;
     const spot = await Spot.findByPk(req.params.spotId);
@@ -121,7 +122,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     });
 });
 
-// POST /api/spots
+// POST /api/spots (create a spot)
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
@@ -133,7 +134,7 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     res.status(201).json(newSpot);
 });
 
-// GET /api/spots/current (check if associated data appears)
+// GET /api/spots/current (get all spots owned by the current user)
 router.get('/current',requireAuth, async (req, res, next) => {
     const allSpots = await Spot.findAll({
         where: { ownerId: req.user.id },
@@ -169,7 +170,7 @@ router.get('/current',requireAuth, async (req, res, next) => {
     });
 });
 
-// GET /api/spots/:spotId
+// GET /api/spots/:spotId (get details of a spot from an id)
 router.get('/:spotId', async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId, {
         include: [
@@ -209,7 +210,7 @@ router.get('/:spotId', async (req, res, next) => {
 //     res.json(allSpots);
 // });
 
-// GET /api/spots
+// GET /api/spots (get all spots)
 router.get('/', async (req, res, next) => {
     const allSpots = await Spot.findAll({
         include: [

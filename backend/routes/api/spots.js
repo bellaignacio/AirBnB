@@ -6,8 +6,55 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
+const validateSpot = [
+    check('address')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a street address.'),
+    check('city')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a city.'),
+    check('state')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a state.'),
+    check('country')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a country.'),
+    check('lat')
+        .exists({ checkFalsy: true })
+        .isFloat({ min: -90, max: 90 })
+        .withMessage('Latitude is not valid.'),
+    check('lng')
+        .exists({ checkFalsy: true })
+        .isFloat({ min: -180, max: 180 })
+        .withMessage('Longitude is not valid.'),
+    check('name')
+        .exists({ checkFalsy: true })
+        .isLength({ max: 50 })
+        .withMessage('Name must be less than 50 characters.'),
+    check('name')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a name.'),
+    check('description')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a description.'),
+    check('price')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a price per day.'),
+    handleValidationErrors
+];
+
 // POST /api/spots
-router.post('/', async (req, res, next) => {});
+router.post('/', validateSpot, async (req, res, next) => {
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+    const owner = await User.findByPk(req.user.id);
+    const newSpot = await owner.createSpot({
+        address, city, state, country, lat, lng, name, description, price
+    });
+
+    // SPOT NOT SAVING TO DATABASE
+    res.json(newSpot);
+});
 
 // GET /api/spots/current (check if associated data appears)
 router.get('/current', async (req, res, next) => {

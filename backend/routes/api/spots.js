@@ -44,7 +44,7 @@ const validateSpot = [
 ];
 
 // DELETE /api/spots/:spotId
-router.delete('/:spotId', async (req, res, next) => {
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
@@ -69,7 +69,7 @@ router.delete('/:spotId', async (req, res, next) => {
 })
 
 // PUT /api/spots/:spotId
-router.put('/:spotId', validateSpot, async (req, res, next) => {
+router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
     const spot = await Spot.findByPk(req.params.spotId);
 
@@ -94,7 +94,7 @@ router.put('/:spotId', validateSpot, async (req, res, next) => {
 });
 
 // POST /api/spots/:spotId/images
-router.post('/:spotId/images', async (req, res, next) => {
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const { url, preview } = req.body;
     const spot = await Spot.findByPk(req.params.spotId);
 
@@ -122,7 +122,7 @@ router.post('/:spotId/images', async (req, res, next) => {
 });
 
 // POST /api/spots
-router.post('/', validateSpot, async (req, res, next) => {
+router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
     const owner = await User.findByPk(req.user.id);
@@ -134,7 +134,7 @@ router.post('/', validateSpot, async (req, res, next) => {
 });
 
 // GET /api/spots/current (check if associated data appears)
-router.get('/current', async (req, res, next) => {
+router.get('/current',requireAuth, async (req, res, next) => {
     const allSpots = await Spot.findAll({
         where: { ownerId: req.user.id },
         include: [

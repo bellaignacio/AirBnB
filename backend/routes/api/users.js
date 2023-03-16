@@ -69,9 +69,9 @@ router.post('/', validateSignup, async (req, res, next) => {
 });
 
 // GET /api/users (check if associated data appears)
-router.get('/', async (req, res, next) => {
-    const allUsers = await User.findAll({ include: { all: true } });
-    res.json(allUsers);
-});
+// router.get('/', async (req, res, next) => {
+//     const allUsers = await User.findAll({ include: { all: true } });
+//     res.json(allUsers);
+// });
 
 module.exports = router;

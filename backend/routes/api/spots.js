@@ -1,6 +1,6 @@
 const express = require('express');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot, Review, SpotImage, User, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -41,6 +41,18 @@ const validateSpot = [
     check('price')
         .exists({ checkFalsy: true })
         .withMessage('Please provide a price per day.'),
+    handleValidationErrors
+];
+
+// validate review middleware
+const validateReview = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide review text.'),
+    check('stars')
+        .exists({ checkFalsy: true })
+        .isInt({ min: 1, max: 5 })
+        .withMessage('Stars must be an integer from 1 to 5.'),
     handleValidationErrors
 ];
 
@@ -122,6 +134,36 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     });
 });
 
+// POST /api/spots/:spotId/reviews (create a review for a spot based on the spot's id)
+router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
+    const { review, stars } = req.body;
+    const spot = await Spot.findByPk(req.params.spotId);
+    let existingReview = await Review.findOne({
+        where: { userId: req.user.id, spotId: req.params.spotId }
+    });
+
+    if (existingReview) {
+        const err = new Error('User already has a review for this spot');
+        err.status = 403;
+        err.title = 'User already has a review for this spot';
+        return next(err);
+    }
+
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        err.title = "Spot couldn't be found";
+        return next(err);
+    }
+
+    const newReview = await spot.createReview({
+        userId: req.user.id,
+        review, stars
+    });
+
+    res.status(201).json(newReview);
+});
+
 // POST /api/spots (create a spot)
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -150,7 +192,8 @@ router.get('/current',requireAuth, async (req, res, next) => {
         ]
     });
 
-    allSpots.forEach(async spot => {
+    for (let i = 0; i < allSpots.length; i++) {
+        const spot = allSpots[i];
         const allStars = [];
         const allPreviewImages = [];
         spot.Reviews.forEach(review => {
@@ -163,10 +206,39 @@ router.get('/current',requireAuth, async (req, res, next) => {
         spot.dataValues.previewImage = allPreviewImages;
         delete spot.dataValues.Reviews;
         delete spot.dataValues.SpotImages;
-    });
+    }
 
     res.json({
         Spots: allSpots
+    });
+});
+
+// GET /api/spots/:spotId/reviews (get all reviews by a spot's id)
+router.get('/:spotId/reviews', async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId);
+
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        err.title = "Spot couldn't be found";
+        return next(err);
+    }
+
+    const allReviews = await spot.getReviews({
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: ReviewImage,
+                attributes: ['id', 'url']
+            }
+        ]
+    });
+
+    res.json({
+        Reviews: allReviews
     });
 });
 
@@ -204,12 +276,6 @@ router.get('/:spotId', async (req, res, next) => {
     res.json(spot);
 });
 
-// GET /api/spots (check if associated data appears)
-// router.get('/', async (req, res, next) => {
-//     const allSpots = await Spot.findAll({ include: { all: true } });
-//     res.json(allSpots);
-// });
-
 // GET /api/spots (get all spots)
 router.get('/', async (req, res, next) => {
     const allSpots = await Spot.findAll({
@@ -225,7 +291,8 @@ router.get('/', async (req, res, next) => {
         ]
     });
 
-    allSpots.forEach(async spot => {
+    for (let i = 0; i < allSpots.length; i++) {
+        const spot = allSpots[i];
         const allStars = [];
         const allPreviewImages = [];
         spot.Reviews.forEach(review => {
@@ -238,11 +305,17 @@ router.get('/', async (req, res, next) => {
         spot.dataValues.previewImage = allPreviewImages;
         delete spot.dataValues.Reviews;
         delete spot.dataValues.SpotImages;
-    });
+    }
 
     res.json({
         Spots: allSpots
     });
 });
+
+// GET /api/spots (check if associated data appears)
+// router.get('/', async (req, res, next) => {
+//     const allSpots = await Spot.findAll({ include: { all: true } });
+//     res.json(allSpots);
+// });
 
 module.exports = router;

@@ -57,6 +57,19 @@ const validateReview = [
     handleValidationErrors
 ];
 
+// validate query filter middleware
+const validateQueryFilter = [
+    check('page'),
+    check('size'),
+    check('maxLat'),
+    check('minLat'),
+    check('minLng'),
+    check('maxLng'),
+    check('minPrice'),
+    check('maxPrice'),
+    handleValidationErrors
+];
+
 // validate booking middleware
 const validateBooking = [
     check('endDate')
@@ -226,11 +239,12 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
     const { review, stars } = req.body;
     const spot = await Spot.findByPk(req.params.spotId);
-    let existingReview = await Review.findOne({
-        where: { userId: req.user.id, spotId: req.params.spotId }
+
+    let existingReview = await spot.getReviews({
+        where: { userId: req.user.id }
     });
 
-    if (existingReview) {
+    if (existingReview.length) {
         const err = new Error('User already has a review for this spot');
         err.status = 403;
         err.title = 'User already has a review for this spot';

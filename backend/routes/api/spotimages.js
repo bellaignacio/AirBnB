@@ -13,16 +13,18 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
     if (!image) {
         const err = new Error("Spot Image couldn't be found");
         err.status = 404;
-        err.title = "Spot Image couldn't be found";
         return next(err);
     }
 
     const spot = await image.getSpot();
 
     if (req.user.id !== spot.ownerId) {
-        const err = new Error('Spot does not belong to current user');
+        // const err = new Error('Spot does not belong to current user');
+        // err.status = 403;
+        // err.title = 'Spot does not belong to current user';
+        // return next(err);
+        const err = new Error('Forbidden');
         err.status = 403;
-        err.title = 'Spot does not belong to current user';
         return next(err);
     }
 

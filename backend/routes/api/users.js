@@ -11,7 +11,7 @@ const validateSignup = [
     check('email')
         .exists({ checkFalsy: true })
         .isEmail()
-        .withMessage('Please provide a valid email.'),
+        .withMessage('Invalid email'),
     check('username')
         .exists({ checkFalsy: true })
         .isLength({ min: 4 })
@@ -20,16 +20,19 @@ const validateSignup = [
         .not()
         .isEmail()
         .withMessage('Username cannot be an email.'),
+    check('username')
+        .exists({ checkFalsy: true })
+        .withMessage('Username is required'),
     check('password')
         .exists({ checkFalsy: true })
         .isLength({ min: 6 })
         .withMessage('Password must be 6 characters or more.'),
     check('firstName')
         .exists({ checkFalsy: true })
-        .withMessage('Please provide a first name.'),
+        .withMessage('First Name is required'),
     check('lastName')
         .exists({ checkFalsy: true })
-        .withMessage('Please provide a last name.'),
+        .withMessage('Last Name is required'),
     handleValidationErrors
 ];
 
@@ -46,9 +49,15 @@ router.post('/', validateSignup, async (req, res, next) => {
     });
 
     if (existingEmail || existingUsername) {
+        // const err = new Error('User already exists');
+        // err.status = 403;
+        // err.title = 'User already exists';
+        // err.errors = {};
+        // if (existingEmail) err.errors.email = 'User with that email already exists';
+        // if (existingUsername) err.errors.username = 'User with that username already exists';
+        // return next(err);
         const err = new Error('User already exists');
         err.status = 403;
-        err.title = 'User already exists';
         err.errors = {};
         if (existingEmail) err.errors.email = 'User with that email already exists';
         if (existingUsername) err.errors.username = 'User with that username already exists';

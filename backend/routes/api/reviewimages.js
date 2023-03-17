@@ -13,16 +13,18 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
     if (!image) {
         const err = new Error("Review Image couldn't be found");
         err.status = 404;
-        err.title = "Review Image couldn't be found";
         return next(err);
     }
 
     const review = await image.getReview();
 
     if (req.user.id !== review.userId) {
-        const err = new Error('Review does not belong to current user');
+        // const err = new Error('Review does not belong to current user');
+        // err.status = 403;
+        // err.title = 'Review does not belong to current user';
+        // return next(err);
+        const err = new Error('Forbidden');
         err.status = 403;
-        err.title = 'Review does not belong to current user';
         return next(err);
     }
 

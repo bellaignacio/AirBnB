@@ -24,10 +24,10 @@ const validateBooking = [
         }),
     check('endDate')
         .exists({ checkFalsy: true })
-        .withMessage('Please provide an end date'),
+        .withMessage('End date is required'),
     check('startDate')
         .exists({ checkFalsy: true })
-        .withMessage('Please provide a start date'),
+        .withMessage('Start date is required'),
     handleValidationErrors
 ];
 
@@ -36,25 +36,34 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     const booking = await Booking.findByPk(req.params.bookingId);
 
     if (!booking) {
+        // const err = new Error("Booking couldn't be found");
+        // err.status = 404;
+        // err.title = "Booking couldn't be found";
+        // return next(err);
         const err = new Error("Booking couldn't be found");
         err.status = 404;
-        err.title = "Booking couldn't be found";
         return next(err);
     }
 
     const spot = await booking.getSpot();
 
     if (req.user.id !== booking.userId && req.user.id !== spot.ownerId) {
-        const err = new Error('Booking and Spot does not belong to current user');
+        // const err = new Error('Booking and Spot does not belong to current user');
+        // err.status = 403;
+        // err.title = 'Booking and Spot does not belong to current user';
+        // return next(err);
+        const err = new Error('Forbidden');
         err.status = 403;
-        err.title = 'Booking and Spot does not belong to current user';
         return next(err);
     }
 
     if (new Date(booking.startDate).getTime() <= new Date().getTime()) {
+        // const err = new Error("Bookings that have been started can't be deleted");
+        // err.status = 403;
+        // err.title = "Bookings that have been started can't be deleted";
+        // return next(err);
         const err = new Error("Bookings that have been started can't be deleted");
         err.status = 403;
-        err.title = "Bookings that have been started can't be deleted";
         return next(err);
     }
 
@@ -78,21 +87,30 @@ router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) =
     const booking = await Booking.findByPk(req.params.bookingId);
 
     if (!booking) {
+        // const err = new Error("Booking couldn't be found");
+        // err.status = 404;
+        // err.title = "Booking couldn't be found";
+        // return next(err);
         const err = new Error("Booking couldn't be found");
         err.status = 404;
-        err.title = "Booking couldn't be found";
         return next(err);
     } else if (req.user.id !== booking.userId) {
-        const err = new Error('Booking does not belong to current user');
+        // const err = new Error('Booking does not belong to current user');
+        // err.status = 403;
+        // err.title = 'Booking does not belong to current user';
+        // return next(err);
+        const err = new Error('Forbidden');
         err.status = 403;
-        err.title = 'Booking does not belong to current user';
         return next(err);
     }
 
     if (new Date(booking.endDate).getTime() <= new Date().getTime()) {
+        // const err = new Error("Past bookings can't be modified");
+        // err.status = 403;
+        // err.title = "Past bookings can't be modified";
+        // return next(err);
         const err = new Error("Past bookings can't be modified");
         err.status = 403;
-        err.title = "Past bookings can't be modified";
         return next(err);
     }
 
@@ -121,9 +139,15 @@ router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) =
     });
 
     if (conflictingStartDate.length || conflictingEndDate.length) {
+        // const err = new Error('Sorry, this spot is already booked for the specified dates');
+        // err.status = 403;
+        // err.title = 'Sorry, this spot is already booked for the specified dates';
+        // err.errors = {};
+        // if (conflictingStartDate.length) err.errors.startDate = 'Start date conflicts with an existing booking';
+        // if (conflictingEndDate.length) err.errors.endDate = 'End date conflicts with an existing booking';
+        // return next(err);
         const err = new Error('Sorry, this spot is already booked for the specified dates');
         err.status = 403;
-        err.title = 'Sorry, this spot is already booked for the specified dates';
         err.errors = {};
         if (conflictingStartDate.length) err.errors.startDate = 'Start date conflicts with an existing booking';
         if (conflictingEndDate.length) err.errors.endDate = 'End date conflicts with an existing booking';

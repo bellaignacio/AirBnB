@@ -10,11 +10,11 @@ const router = express.Router();
 const validateReview = [
     check('review')
         .exists({ checkFalsy: true })
-        .withMessage('Please provide review text.'),
+        .withMessage('Review text is required'),
     check('stars')
         .exists({ checkFalsy: true })
         .isInt({ min: 1, max: 5 })
-        .withMessage('Stars must be an integer from 1 to 5.'),
+        .withMessage('Stars must be an integer from 1 to 5'),
     handleValidationErrors
 ];
 
@@ -23,14 +23,20 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) => {
     const review = await Review.findByPk(req.params.reviewId);
 
     if (!review) {
+        // const err = new Error("Review couldn't be found");
+        // err.status = 404;
+        // err.title = "Review couldn't be found";
+        // return next(err);
         const err = new Error("Review couldn't be found");
         err.status = 404;
-        err.title = "Review couldn't be found";
         return next(err);
     } else if (req.user.id !== review.userId) {
-        const err = new Error('Review does not belong to current user');
+        // const err = new Error('Review does not belong to current user');
+        // err.status = 403;
+        // err.title = 'Review does not belong to current user';
+        // return next(err);
+        const err = new Error('Forbidden');
         err.status = 403;
-        err.title = 'Review does not belong to current user';
         return next(err);
     }
 
@@ -49,14 +55,20 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => 
     const editReview = await Review.findByPk(req.params.reviewId);
 
     if (!editReview) {
+        // const err = new Error("Review couldn't be found");
+        // err.status = 404;
+        // err.title = "Review couldn't be found";
+        // return next(err);
         const err = new Error("Review couldn't be found");
         err.status = 404;
-        err.title = "Review couldn't be found";
         return next(err);
     } else if (req.user.id !== editReview.userId) {
-        const err = new Error('Review does not belong to current user');
+        // const err = new Error('Review does not belong to current user');
+        // err.status = 403;
+        // err.title = 'Review does not belong to current user';
+        // return next(err);
+        const err = new Error('Forbidden');
         err.status = 403;
-        err.title = 'Review does not belong to current user';
         return next(err);
     }
 
@@ -74,21 +86,30 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     const review = await Review.findByPk(req.params.reviewId);
 
     if (!review) {
+        // const err = new Error("Review couldn't be found");
+        // err.status = 404;
+        // err.title = "Review couldn't be found";
+        // return next(err);
         const err = new Error("Review couldn't be found");
         err.status = 404;
-        err.title = "Review couldn't be found";
         return next(err);
     } else if (req.user.id !== review.userId) {
-        const err = new Error('Review does not belong to current user');
+        // const err = new Error('Review does not belong to current user');
+        // err.status = 403;
+        // err.title = 'Review does not belong to current user';
+        // return next(err);
+        const err = new Error('Forbidden');
         err.status = 403;
-        err.title = 'Review does not belong to current user';
         return next(err);
     } else {
         const allReviewImages = await review.getReviewImages();
         if (allReviewImages.length >= 10) {
+            // const err = new Error('Maximum number of images for this resource was reached');
+            // err.status = 403;
+            // err.title = 'Maximum number of images for this resource was reached';
+            // return next(err);
             const err = new Error('Maximum number of images for this resource was reached');
             err.status = 403;
-            err.title = 'Maximum number of images for this resource was reached';
             return next(err);
         }
     }

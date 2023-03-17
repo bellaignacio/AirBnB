@@ -4,3 +4,4 @@ build
 .DS_Store
 *.db
 test.txt
+airbnb-database-schema

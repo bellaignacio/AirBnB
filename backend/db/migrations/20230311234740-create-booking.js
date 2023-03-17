@@ -17,11 +17,13 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Users' }
+        references: { model: 'Users' },
+        onDelete: 'CASCADE'
       },
       spotId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Spots' }
+        references: { model: 'Spots' },
+        onDelete: 'CASCADE'
       },
       startDate: {
         type: Sequelize.DATE,

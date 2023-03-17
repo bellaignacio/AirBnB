@@ -1,8 +1,6 @@
 const express = require('express');
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { requireAuth } = require('../../utils/auth');
 const { SpotImage } = require('../../db/models');
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
@@ -19,10 +17,6 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
     const spot = await image.getSpot();
 
     if (req.user.id !== spot.ownerId) {
-        // const err = new Error('Spot does not belong to current user');
-        // err.status = 403;
-        // err.title = 'Spot does not belong to current user';
-        // return next(err);
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);

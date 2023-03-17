@@ -1,140 +1,20 @@
 const express = require('express');
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { requireAuth } = require('../../utils/auth');
 const { Spot, Review, SpotImage, User, ReviewImage, sequelize } = require('../../db/models');
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { validateSpot, validateReview, validateQueryFilter, validateBooking } = require('../../utils/validation');
 const { Op } = require('sequelize');
 
 const router = express.Router();
-
-// validate spot middleware
-const validateSpot = [
-    check('address')
-        .exists({ checkFalsy: true })
-        .withMessage('Street address is required'),
-    check('city')
-        .exists({ checkFalsy: true })
-        .withMessage('City is required'),
-    check('state')
-        .exists({ checkFalsy: true })
-        .withMessage('State is required'),
-    check('country')
-        .exists({ checkFalsy: true })
-        .withMessage('Country is required'),
-    check('lat')
-        .exists({ checkFalsy: true })
-        .isFloat({ min: -90, max: 90 })
-        .withMessage('Latitude is not valid'),
-    check('lng')
-        .exists({ checkFalsy: true })
-        .isFloat({ min: -180, max: 180 })
-        .withMessage('Longitude is not valid'),
-    check('name')
-        .exists({ checkFalsy: true })
-        .isLength({ max: 50 })
-        .withMessage('Name must be less than 50 characters'),
-    check('name')
-        .exists({ checkFalsy: true })
-        .withMessage('Name is required'),
-    check('description')
-        .exists({ checkFalsy: true })
-        .withMessage('Description is required'),
-    check('price')
-        .exists({ checkFalsy: true })
-        .withMessage('Price per day is required'),
-    handleValidationErrors
-];
-
-// validate review middleware
-const validateReview = [
-    check('review')
-        .exists({ checkFalsy: true })
-        .withMessage('Review text is required'),
-    check('stars')
-        .exists({ checkFalsy: true })
-        .isInt({ min: 1, max: 5 })
-        .withMessage('Stars must be an integer from 1 to 5'),
-    handleValidationErrors
-];
-
-// validate query filter middleware
-const validateQueryFilter = [
-    check('page')
-        .optional({ checkFalsy: true })
-        .isInt({ min: 1 })
-        .withMessage('Page must be greater than or equal to 1'),
-    check('size')
-        .optional({ checkFalsy: true })
-        .isInt({ min: 1 })
-        .withMessage('Size must be greater than or equal to 1'),
-    check('minLat')
-        .optional({ checkFalsy: true })
-        .isDecimal()
-        .withMessage('Minimum latitude is invalid'),
-    check('maxLat')
-        .optional({ checkFalsy: true })
-        .isDecimal()
-        .withMessage('Maximum latitude is invalid'),
-    check('minLng')
-        .optional({ checkFalsy: true })
-        .isDecimal()
-        .withMessage('Minimum longitude is invalid'),
-    check('maxLng')
-        .optional({ checkFalsy: true })
-        .isDecimal()
-        .withMessage('Maximum longitude is invalid'),
-    check('minPrice')
-        .optional({ checkFalsy: true })
-        .isFloat({ min: 0 })
-        .withMessage('Minimum price must be greater than or equal to 0'),
-    check('maxPrice')
-        .optional({ checkFalsy: true })
-        .isFloat({ min: 0 })
-        .withMessage('Maximum price must be greater than or equal to 0'),
-    handleValidationErrors
-];
-
-// validate booking middleware
-const validateBooking = [
-    check('endDate')
-        .custom((endDate, { req }) => {
-            const [sy, sm, sd] = req.body.startDate.split('-');
-            const [ey, em, ed] = endDate.split('-');
-
-            const sDate = new Date(sy, sm - 1, sd);
-            const eDate = new Date(ey, em - 1, ed);
-            if (eDate.getTime() <= sDate.getTime()) {
-                throw new Error('endDate cannot be on or before startDate');
-            }
-
-            return true;
-        }),
-    check('endDate')
-        .exists({ checkFalsy: true })
-        .withMessage('End date is required'),
-    check('startDate')
-        .exists({ checkFalsy: true })
-        .withMessage('Start date is required'),
-    handleValidationErrors
-];
 
 // DELETE /api/spots/:spotId (delete a spot)
 router.delete('/:spotId', requireAuth, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
-        // const err = new Error("Spot couldn't be found");
-        // err.status = 404;
-        // err.title = "Spot couldn't be found";
-        // return next(err);
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
     } else if (req.user.id !== spot.ownerId) {
-        // const err = new Error('Spot does not belong to current user');
-        // err.status = 403;
-        // err.title = 'Spot does not belong to current user';
-        // return next(err);
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);
@@ -155,18 +35,10 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
-        // const err = new Error("Spot couldn't be found");
-        // err.status = 404;
-        // err.title = "Spot couldn't be found";
-        // return next(err);
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
     } else if (req.user.id !== spot.ownerId) {
-        // const err = new Error('Spot does not belong to current user');
-        // err.status = 403;
-        // err.title = 'Spot does not belong to current user';
-        // return next(err);
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);
@@ -186,18 +58,10 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
-        // const err = new Error("Spot couldn't be found");
-        // err.status = 404;
-        // err.title = "Spot couldn't be found";
-        // return next(err);
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
     } else if (req.user.id !== spot.ownerId) {
-        // const err = new Error('Spot does not belong to current user');
-        // err.status = 403;
-        // err.title = 'Spot does not belong to current user';
-        // return next(err);
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);
@@ -225,18 +89,10 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
-        // const err = new Error("Spot couldn't be found");
-        // err.status = 404;
-        // err.title = "Spot couldn't be found";
-        // return next(err);
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
     } else if (req.user.id === spot.ownerId) {
-        // const err = new Error('Spot belongs to current user');
-        // err.status = 403;
-        // err.title = 'Spot belongs to current user';
-        // return next(err);
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);
@@ -265,13 +121,6 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
     });
 
     if (conflictingStartDate.length || conflictingEndDate.length) {
-        // const err = new Error('Sorry, this spot is already booked for the specified dates');
-        // err.status = 403;
-        // err.title = 'Sorry, this spot is already booked for the specified dates';
-        // err.errors = {};
-        // if (conflictingStartDate.length) err.errors.startDate = 'Start date conflicts with an existing booking';
-        // if (conflictingEndDate.length) err.errors.endDate = 'End date conflicts with an existing booking';
-        // return next(err);
         const err = new Error('Sorry, this spot is already booked for the specified dates');
         err.status = 403;
         err.errors = {};
@@ -294,6 +143,12 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
     const { review, stars } = req.body;
     const spot = await Spot.findByPk(req.params.spotId);
 
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        return next(err);
+    }
+    
     let existingReview = await spot.getReviews({
         where: { userId: req.user.id }
     });
@@ -301,16 +156,6 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
     if (existingReview.length) {
         const err = new Error('User already has a review for this spot');
         err.status = 403;
-        return next(err);
-    }
-
-    if (!spot) {
-        // const err = new Error("Spot couldn't be found");
-        // err.status = 404;
-        // err.title = "Spot couldn't be found";
-        // return next(err);
-        const err = new Error("Spot couldn't be found");
-        err.status = 404;
         return next(err);
     }
 
@@ -376,10 +221,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
-        // const err = new Error("Spot couldn't be found");
-        // err.status = 404;
-        // err.title = "Spot couldn't be found";
-        // return next(err);
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
@@ -409,10 +250,6 @@ router.get('/:spotId/reviews', async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
-        // const err = new Error("Spot couldn't be found");
-        // err.status = 404;
-        // err.title = "Spot couldn't be found";
-        // return next(err);
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
@@ -453,10 +290,6 @@ router.get('/:spotId', async (req, res, next) => {
     });
 
     if (!spot) {
-        // const err = new Error("Spot couldn't be found");
-        // err.status = 404;
-        // err.title = "Spot couldn't be found";
-        // return next(err);
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);

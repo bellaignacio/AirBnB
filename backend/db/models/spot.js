@@ -4,11 +4,27 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    async getAvgRating() {
+      const allReviews = await this.getReviews();
+      const allStars = [];
+      allReviews.forEach(review => {
+        allStars.push(review.stars);
+      });
+      const avgRating = allStars.length ? allStars.reduce((accum, currentVal) => accum + currentVal) / allStars.length : 0;
+      return avgRating;
+    }
+    async getNumReviews() {
+      const allReviews = await this.getReviews();
+      return allReviews.length;
+    }
+    async getPreviewImages() {
+      const allSpotImages = await this.getSpotImages();
+      const allPreviewImages = [];
+      allSpotImages.forEach(image => {
+        if (image.preview) allPreviewImages.push(image.url);
+      });
+      return allPreviewImages;
+    }
     static associate(models) {
       Spot.belongsTo(models.User, { foreignKey: 'ownerId', as: 'Owner' });
       Spot.hasMany(models.Review, { foreignKey: 'spotId', onDelete: 'CASCADE', hooks: true });

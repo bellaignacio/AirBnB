@@ -13,7 +13,9 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) => {
         const err = new Error("Review couldn't be found");
         err.status = 404;
         return next(err);
-    } else if (req.user.id !== review.userId) {
+    }
+
+    if (req.user.id !== review.userId) {
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);
@@ -21,8 +23,7 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) => {
 
     await review.destroy();
 
-    res.status(200);
-    res.json( {
+    res.status(200).json({
         message: "Successfully deleted",
         statusCode: res.statusCode
     });
@@ -37,7 +38,9 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => 
         const err = new Error("Review couldn't be found");
         err.status = 404;
         return next(err);
-    } else if (req.user.id !== editReview.userId) {
+    }
+
+    if (req.user.id !== editReview.userId) {
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);
@@ -46,6 +49,7 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => 
     editReview.set({
         review, stars
     });
+    
     await editReview.save();
 
     res.json(editReview);
@@ -60,17 +64,20 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
         const err = new Error("Review couldn't be found");
         err.status = 404;
         return next(err);
-    } else if (req.user.id !== review.userId) {
+    }
+
+    if (req.user.id !== review.userId) {
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);
-    } else {
-        const allReviewImages = await review.getReviewImages();
-        if (allReviewImages.length >= 10) {
-            const err = new Error('Maximum number of images for this resource was reached');
-            err.status = 403;
-            return next(err);
-        }
+    }
+
+    const allReviewImages = await review.getReviewImages();
+
+    if (allReviewImages.length >= 10) {
+        const err = new Error('Maximum number of images for this resource was reached');
+        err.status = 403;
+        return next(err);
     }
 
     const newImage = await review.createReviewImage({
@@ -85,8 +92,8 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
 
 // GET /api/reviews/current (get all reviews of the current user)
 router.get('/current', requireAuth, async (req, res, next) => {
-    const allReviews = await Review.findAll({
-        where: { userId: req.user.id },
+    const currentUser = await User.getCurrentUserById(req.user.id);
+    const allReviews = await currentUser.getReviews({
         include: [
             {
                 model: User,
@@ -107,23 +114,13 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
     for (let i = 0; i < allReviews.length; i++) {
         const review = allReviews[i];
-        const spotImages = await review.Spot.getSpotImages();
-        const allPreviewImages = [];
-        spotImages.forEach(async image => {
-            if (image.preview) allPreviewImages.push(image.url)
-        });
-        review.dataValues.Spot.dataValues.previewImage = allPreviewImages;
+        const spot = await review.getSpot();
+        review.dataValues.Spot.dataValues.previewImage = await spot.getPreviewImages();
     }
 
     res.json({
         Reviews: allReviews
     });
 });
-
-// GET /api/reviews (check if associated data appears)
-// router.get('/', async (req, res, next) => {
-//     const allReviews = await Review.findAll({ include: { all: true } });
-//     res.json(allReviews);
-// });
 
 module.exports = router;

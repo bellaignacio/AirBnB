@@ -19,22 +19,15 @@ router.post('/', validateLogin, async (req, res, next) => {
     await setTokenCookie(res, user);
 
     return res.json({
-        user: {
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            username: user.username
-        }
+        user: user.toSafeObject()
     });
 });
 
 // DELETE /api/session (log out a user)
 router.delete('/', (_req, res) => {
-        res.clearCookie('token');
-        return res.json({ message: 'success' });
-    }
-);
+    res.clearCookie('token');
+    return res.json({ message: 'success' });
+});
 
 // GET /api/session (get the current user)
 router.get('/', requireAuth, restoreUser, (req, res) => {

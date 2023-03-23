@@ -30,19 +30,9 @@ router.post('/', validateSignup, async (req, res, next) => {
     const token = await setTokenCookie(res, user);
 
     return res.json({
-        id: user.id,
-        firstName,
-        lastName,
-        email,
-        username,
+        ...user.toSafeObject(),
         token
     });
 });
-
-// GET /api/users (check if associated data appears)
-// router.get('/', async (req, res, next) => {
-//     const allUsers = await User.findAll({ include: { all: true } });
-//     res.json(allUsers);
-// });
 
 module.exports = router;

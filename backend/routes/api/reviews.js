@@ -85,8 +85,8 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
 
 // GET /api/reviews/current (get all reviews of the current user)
 router.get('/current', requireAuth, async (req, res, next) => {
-    const allReviews = await Review.findAll({
-        where: { userId: req.user.id },
+    const currentUser = await User.getCurrentUserById(req.user.id);
+    const allReviews = await currentUser.getReviews({
         include: [
             {
                 model: User,

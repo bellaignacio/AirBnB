@@ -148,7 +148,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
         err.status = 404;
         return next(err);
     }
-    
+
     let existingReview = await spot.getReviews({
         where: { userId: req.user.id }
     });
@@ -171,8 +171,8 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-    const owner = await User.findByPk(req.user.id);
-    const newSpot = await owner.createSpot({
+    const currentUser = await User.getCurrentUserById(req.user.id);
+    const newSpot = await currentUser.createSpot({
         address, city, state, country, lat, lng, name, description, price
     });
 
@@ -181,8 +181,8 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
 
 // GET /api/spots/current (get all spots owned by the current user)
 router.get('/current', requireAuth, async (req, res, next) => {
-    const allSpots = await Spot.findAll({
-        where: { ownerId: req.user.id },
+    const currentUser = await User.getCurrentUserById(req.user.id);
+    const allSpots = await currentUser.getSpots({
         include: [
             {
                 model: Review,

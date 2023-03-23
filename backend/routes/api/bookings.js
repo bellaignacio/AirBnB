@@ -1,6 +1,6 @@
 const express = require('express');
 const { requireAuth } = require('../../utils/auth');
-const { Booking, Spot } = require('../../db/models');
+const { Booking, Spot, User } = require('../../db/models');
 const { validateBooking } = require('../../utils/validation');
 const { Op } = require('sequelize');
 
@@ -110,8 +110,8 @@ router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) =
 
 // GET /api/bookings/current (get all of the current user's bookings)
 router.get('/current', requireAuth, async (req, res, next) => {
-    const allBookings = await Booking.findAll({
-        where: { userId: req.user.id },
+    const currentUser = await User.getCurrentUserById(req.user.id);
+    const allBookings = await currentUser.getBookings({
         include: {
             model: Spot,
             attributes: {

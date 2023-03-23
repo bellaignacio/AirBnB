@@ -6,11 +6,6 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       Booking.belongsTo(models.User, { foreignKey: 'userId' });
       Booking.belongsTo(models.Spot, { foreignKey: 'spotId' });
@@ -28,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     startDate: {
       type: DataTypes.DATE,
       allowNull: false,
-      get: function() {
+      get: function () {
         return moment.utc(this.getDataValue('startDate')).format('YYYY-MM-DD');
       }
     },
@@ -42,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
-      get: function() {
+      get: function () {
         return moment.utc(this.getDataValue('endDate')).format('YYYY-MM-DD');
       }
     }

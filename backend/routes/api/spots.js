@@ -14,7 +14,9 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
-    } else if (req.user.id !== spot.ownerId) {
+    }
+
+    if (req.user.id !== spot.ownerId) {
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);
@@ -22,8 +24,7 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
 
     await spot.destroy();
 
-    res.status(200);
-    res.json({
+    res.status(200).json({
         message: "Successfully deleted",
         statusCode: res.statusCode
     });
@@ -38,7 +39,9 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
-    } else if (req.user.id !== spot.ownerId) {
+    }
+
+    if (req.user.id !== spot.ownerId) {
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);
@@ -47,6 +50,7 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     spot.set({
         address, city, state, country, lat, lng, name, description, price
     });
+
     await spot.save();
 
     res.json(spot);
@@ -61,7 +65,9 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
-    } else if (req.user.id !== spot.ownerId) {
+    }
+
+    if (req.user.id !== spot.ownerId) {
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);
@@ -86,13 +92,16 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
     const [ey, em, ed] = endDateInput.split('-');
     const startDateObj = new Date(sy, sm - 1, sd);
     const endDateObj = new Date(ey, em - 1, ed);
+    
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
-    } else if (req.user.id === spot.ownerId) {
+    }
+
+    if (req.user.id === spot.ownerId) {
         const err = new Error('Forbidden');
         err.status = 403;
         return next(err);
@@ -182,33 +191,12 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
 // GET /api/spots/current (get all spots owned by the current user)
 router.get('/current', requireAuth, async (req, res, next) => {
     const currentUser = await User.getCurrentUserById(req.user.id);
-    const allSpots = await currentUser.getSpots({
-        include: [
-            {
-                model: Review,
-                attributes: ['id', 'stars']
-            },
-            {
-                model: SpotImage,
-                attributes: ['id', 'url', 'preview']
-            }
-        ]
-    });
+    const allSpots = await currentUser.getSpots();
 
     for (let i = 0; i < allSpots.length; i++) {
         const spot = allSpots[i];
-        const allStars = [];
-        const allPreviewImages = [];
-        spot.Reviews.forEach(review => {
-            allStars.push(review.stars);
-        });
-        spot.SpotImages.forEach(image => {
-            if (image.preview) allPreviewImages.push(image.url);
-        });
-        spot.dataValues.avgRating = allStars.length ? allStars.reduce((accum, currentVal) => accum + currentVal) / allStars.length : 0;
-        spot.dataValues.previewImage = allPreviewImages;
-        delete spot.dataValues.Reviews;
-        delete spot.dataValues.SpotImages;
+        spot.dataValues.avgRating = await spot.getAvgRating();
+        spot.dataValues.previewImage = await spot.getPreviewImages();
     }
 
     res.json({
@@ -295,13 +283,8 @@ router.get('/:spotId', async (req, res, next) => {
         return next(err);
     }
 
-    const spotReviews = await spot.getReviews();
-    const allStars = [];
-    spotReviews.forEach(review => {
-        allStars.push(review.stars);
-    });
-    spot.dataValues.avgStarRating = allStars.length ? allStars.reduce((accum, currentVal) => accum + currentVal) / allStars.length : 0;
-    spot.dataValues.numReviews = allStars.length;
+    spot.dataValues.avgStarRating = await spot.getAvgRating();
+    spot.dataValues.numReviews = await spot.getNumReviews();
 
     res.json(spot);
 });
@@ -344,34 +327,12 @@ router.get('/', validateQueryFilter, async (req, res, next) => {
         query.where.price = { [Op.lte]: req.query.maxPrice };
     }
 
-    const allSpots = await Spot.findAll({
-        include: [
-            {
-                model: Review,
-                attributes: ['id', 'stars']
-            },
-            {
-                model: SpotImage,
-                attributes: ['id', 'url', 'preview']
-            }
-        ],
-        ...query
-    });
+    const allSpots = await Spot.findAll(query);
 
     for (let i = 0; i < allSpots.length; i++) {
         const spot = allSpots[i];
-        const allStars = [];
-        const allPreviewImages = [];
-        spot.Reviews.forEach(review => {
-            allStars.push(review.stars);
-        });
-        spot.SpotImages.forEach(image => {
-            if (image.preview) allPreviewImages.push(image.url);
-        });
-        spot.dataValues.avgRating = allStars.length ? allStars.reduce((accum, currentVal) => accum + currentVal) / allStars.length : 0;
-        spot.dataValues.previewImage = allPreviewImages;
-        delete spot.dataValues.Reviews;
-        delete spot.dataValues.SpotImages;
+        spot.dataValues.avgRating = await spot.getAvgRating();
+        spot.dataValues.previewImage = await spot.getPreviewImages();
     }
 
     res.json({
@@ -380,11 +341,5 @@ router.get('/', validateQueryFilter, async (req, res, next) => {
         size
     });
 });
-
-// GET /api/spots (check if associated data appears)
-// router.get('/', async (req, res, next) => {
-//     const allSpots = await Spot.findAll({ include: { all: true } });
-//     res.json(allSpots);
-// });
 
 module.exports = router;

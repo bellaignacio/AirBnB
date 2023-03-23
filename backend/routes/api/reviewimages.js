@@ -24,17 +24,10 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
 
     await image.destroy();
 
-    res.status(200);
-    res.json({
+    res.status(200).json({
         message: "Successfully deleted",
         statusCode: res.statusCode
     });
 });
-
-// GET /api/review-images (check if associated data appears)
-// router.get('/', async (req, res, next) => {
-//     const allReviewImages = await ReviewImage.findAll({ include: { all: true } });
-//     res.json(allReviewImages);
-// });
 
 module.exports = router;

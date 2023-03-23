@@ -25,10 +25,9 @@ router.post('/', validateLogin, async (req, res, next) => {
 
 // DELETE /api/session (log out a user)
 router.delete('/', (_req, res) => {
-        res.clearCookie('token');
-        return res.json({ message: 'success' });
-    }
-);
+    res.clearCookie('token');
+    return res.json({ message: 'success' });
+});
 
 // GET /api/session (get the current user)
 router.get('/', requireAuth, restoreUser, (req, res) => {

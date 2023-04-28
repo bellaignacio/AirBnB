@@ -32,6 +32,7 @@ function SignupFormPage() {
             }))
                 .catch(async (res) => {
                     const data = await res.json();
+                    console.log(data);
                     if (data && data.errors) setErrors(data.errors);
                 });
         }
@@ -51,7 +52,7 @@ function SignupFormPage() {
                         required
                     />
                 </label>
-                {errors.email && <p>{errors.email}</p>}
+                {errors.email && <p className='error-msg'>{errors.email}</p>}
                 <label>
                     Username
                     <input
@@ -61,7 +62,7 @@ function SignupFormPage() {
                         required
                     />
                 </label>
-                {errors.username && <p>{errors.username}</p>}
+                {errors.username && <p className='error-msg'>{errors.username}</p>}
                 <label>
                     First Name
                     <input
@@ -71,7 +72,7 @@ function SignupFormPage() {
                         required
                     />
                 </label>
-                {errors.firstName && <p>{errors.firstName}</p>}
+                {errors.firstName && <p className='error-msg'>{errors.firstName}</p>}
                 <label>
                     Last Name
                     <input
@@ -81,7 +82,7 @@ function SignupFormPage() {
                         required
                     />
                 </label>
-                {errors.lastName && <p>{errors.lastName}</p>}
+                {errors.lastName && <p className='error-msg'>{errors.lastName}</p>}
                 <label>
                     Password
                     <input
@@ -91,7 +92,7 @@ function SignupFormPage() {
                         required
                     />
                 </label>
-                {errors.password && <p>{errors.password}</p>}
+                {errors.password && <p className='error-msg'>{errors.password}</p>}
                 <label>
                     Confirm Password
                     <input
@@ -101,7 +102,7 @@ function SignupFormPage() {
                         required
                     />
                 </label>
-                {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+                {errors.confirmPassword && <p className='error-msg'>{errors.confirmPassword}</p>}
                 <button type="submit">Sign Up</button>
             </form>
         </>

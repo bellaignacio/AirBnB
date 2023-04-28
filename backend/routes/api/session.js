@@ -30,7 +30,8 @@ router.delete('/', (_req, res) => {
 });
 
 // GET /api/session (get the current user)
-router.get('/', requireAuth, restoreUser, (req, res) => {
+// router.get('/', requireAuth, restoreUser, (req, res) => {
+router.get('/', restoreUser, (req, res) => {
     const { user } = req;
     if (user) {
         return res.json({

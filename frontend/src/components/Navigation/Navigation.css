@@ -1,0 +1,13 @@
+.hidden {
+    display: none;
+}
+
+button {
+    width: 200px;
+    background: rgb(60, 56, 56);
+    color: rgb(255, 255, 255);
+}
+
+button:hover {
+    cursor: pointer;
+}

@@ -27,6 +27,7 @@ function SpotDetails() {
             <div>
                 <ul>
                     <li>Price: {spot?.price}</li>
+                    <button onClick={() => window.alert('Feature Coming Soon...')}>Reserve</button>
                     <li>Location: {spot?.city}, {spot?.state}, {spot?.country}</li>
                     {spot?.SpotImages?.map(imgObj => (
                         <li key={imgObj.id}>Image URL: {imgObj.url}</li>
@@ -41,7 +42,7 @@ function SpotDetails() {
                     <li>Average Rating: {spot?.avgStarRating}</li>
                     <li>Review Count: {spot?.numReviews}</li>
                     <button
-                        onClick={() => console.log('CLICKED Post Your Review')}
+                        onClick={() => window.alert('Clicked Post Your Review')}
                         className={buttonClassName}
                     >
                         Post Your Review

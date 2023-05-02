@@ -31,11 +31,11 @@ export const getSpot = (id) => async dispatch => {
     return response;
 };
 
-const spotsReducer = (state = { allSpots: {}, currentSpot: null }, action) => {
+const spotsReducer = (state = { allSpots: {}, currentSpot: {} }, action) => {
     let newState;
     switch (action.type) {
         case LOAD_ALL_SPOTS:
-            newState = { ...state };
+            newState = { ...state, allSpots: {} };
             action.spots.forEach(spotObj => {
                 newState.allSpots[spotObj.id] = spotObj;
             });

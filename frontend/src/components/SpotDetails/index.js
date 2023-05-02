@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import * as spotsActions from "../../store/spots";
 import * as reviewsActions from "../../store/reviews";
+import './SpotDetails.css';
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -12,12 +13,13 @@ function SpotDetails() {
     const spot = useSelector(state => state.spots.currentSpot);
     const spotReviews = useSelector(state => Object.values(state.reviews.spotReviews));
 
-    // console.log(spotReviews);
-
     useEffect(() => {
         dispatch(spotsActions.getSpot(id));
         dispatch(reviewsActions.getSpotReviews(id));
     }, [dispatch]);
+
+    const loggedIn = useSelector(state => state.session.user);
+    const buttonClassName = (loggedIn ? "" : " hidden");
 
     return (
         <>
@@ -34,21 +36,25 @@ function SpotDetails() {
                     <li>Owner: {spot?.Owner?.firstName} {spot?.Owner?.lastName}</li>
                 </ul>
             </div>
-            <ul>
-                <li>Average Rating: {spot?.avgStarRating}</li>
-                <li>Review Count: {spot?.numReviews}</li>
-                {spotReviews?.map(reviewObj => {
-                    const reviewMonth = MONTHS[new Date(reviewObj.createdAt).getMonth()];
-                    const reviewYear = new Date(reviewObj.createdAt).getFullYear();
-                    return (
-                        <li key={reviewObj.id}>{reviewObj.stars} stars: "{reviewObj.review}"
-                            - {reviewObj.User.firstName}, {reviewMonth} {reviewYear} </li>
-                    );
-                })}
-            </ul>
-
             <div>
-
+                <ul>
+                    <li>Average Rating: {spot?.avgStarRating}</li>
+                    <li>Review Count: {spot?.numReviews}</li>
+                    <button
+                        onClick={() => console.log('CLICKED Post Your Review')}
+                        className={buttonClassName}
+                    >
+                        Post Your Review
+                    </button>
+                    {spotReviews?.map(reviewObj => {
+                        const reviewMonth = MONTHS[new Date(reviewObj.createdAt).getMonth()];
+                        const reviewYear = new Date(reviewObj.createdAt).getFullYear();
+                        return (
+                            <li key={reviewObj.id}>{reviewObj.stars} stars: "{reviewObj.review}"
+                                - {reviewObj.User.firstName}, {reviewMonth} {reviewYear} </li>
+                        );
+                    })}
+                </ul>
             </div>
         </>
     );

@@ -1,4 +1,8 @@
+import { useHistory } from 'react-router-dom';
+
 function SpotTile({ spot }) {
+    const history = useHistory();
+
     return (
         <div>
             <h2>SpotTile: {spot.name}</h2>
@@ -8,6 +12,7 @@ function SpotTile({ spot }) {
                 <li>Average Rating: {spot.avgRating}</li>
                 <li>Preview Image: {spot.previewImage[0]}</li>
             </ul>
+            <button onClick={() => history.push(`/spots/${spot.id}`)}>Go to SpotDetails</button>
         </div>
     );
 }

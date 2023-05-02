@@ -5,7 +5,7 @@ import * as spotsActions from '../../store/spots';
 
 function SpotsIndex() {
     const dispatch = useDispatch();
-    const spots = useSelector(state => Object.values(state.spots));
+    const spots = useSelector(state => Object.values(state.spots.allSpots));
 
     useEffect(() => {
         dispatch(spotsActions.getAllSpots());
@@ -14,7 +14,7 @@ function SpotsIndex() {
     return (
         <>
             <h1>SpotsIndex</h1>
-            {spots.map(spotObj => (
+            {spots?.map(spotObj => (
                 <SpotTile spot={spotObj} />
             ))}
         </>

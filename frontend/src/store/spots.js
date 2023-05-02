@@ -1,29 +1,47 @@
 import { csrfFetch } from "./csrf";
 
-const LOAD_SPOTS = 'spots/loadSpots';
+const LOAD_ALL_SPOTS = 'spots/loadAllSpots';
+const LOAD_CURRENT_SPOT = 'spots/loadCurrentSpot';
 
-const loadSpots = (spots) => {
+const loadAllSpots = (spots) => {
     return {
-        type: LOAD_SPOTS,
+        type: LOAD_ALL_SPOTS,
         spots
+    };
+};
+
+const loadCurrentSpot = (spot) => {
+    return {
+        type: LOAD_CURRENT_SPOT,
+        spot
     };
 };
 
 export const getAllSpots = () => async dispatch => {
     const response = await csrfFetch('/api/spots');
     const data = await response.json();
-    dispatch(loadSpots(data.Spots));
+    dispatch(loadAllSpots(data.Spots));
     return response;
 };
 
-const spotsReducer = (state = {}, action) => {
+export const getSpot = (id) => async dispatch => {
+    const response = await csrfFetch(`/api/spots/${id}`);
+    const data = await response.json();
+    dispatch(loadCurrentSpot(data));
+    return response;
+};
+
+const spotsReducer = (state = { allSpots: {}, currentSpot: null }, action) => {
     let newState;
     switch (action.type) {
-        case LOAD_SPOTS:
+        case LOAD_ALL_SPOTS:
             newState = { ...state };
             action.spots.forEach(spotObj => {
-                newState[spotObj.id] = spotObj;
+                newState.allSpots[spotObj.id] = spotObj;
             });
+            return newState;
+        case LOAD_CURRENT_SPOT:
+            newState = { ...state, currentSpot: action.spot };
             return newState;
         default:
             return state;

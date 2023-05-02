@@ -12,6 +12,11 @@ function Navigation({ isLoaded }) {
             <li>
                 <NavLink exact to="/">Home</NavLink>
             </li>
+            {sessionUser && (
+                <li>
+                    <NavLink to="/spots/new">Create a New Spot</NavLink>
+                </li>
+            )}
             {isLoaded && (
                 <li>
                     <ProfileButton user={sessionUser} />

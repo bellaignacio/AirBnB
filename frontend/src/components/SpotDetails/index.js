@@ -18,8 +18,8 @@ function SpotDetails() {
         dispatch(reviewsActions.getSpotReviews(id));
     }, [dispatch]);
 
-    const loggedIn = useSelector(state => state.session.user);
-    const buttonClassName = (loggedIn ? "" : " hidden");
+    const sessionUser = useSelector(state => state.session.user);
+    const buttonClassName = (sessionUser ? "" : " hidden");
 
     return (
         <>

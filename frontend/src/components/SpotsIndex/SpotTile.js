@@ -1,8 +1,7 @@
-import { useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import dummyImage from './download.png';
 
 function SpotTile({ spot }) {
-    const history = useHistory();
-
     return (
         <div>
             <h2>SpotTile: {spot.name}</h2>
@@ -12,7 +11,9 @@ function SpotTile({ spot }) {
                 <li>Average Rating: {spot.avgRating}</li>
                 <li>Preview Image: {spot.previewImage[0]}</li>
             </ul>
-            <button onClick={() => history.push(`/spots/${spot.id}`)}>Go to SpotDetails</button>
+            <NavLink to={`/spots/${spot.id}`}>
+                <img src={dummyImage} alt='dummy house'/>
+            </NavLink>
         </div>
     );
 }

@@ -31,6 +31,9 @@ function App() {
           <Route path='/spots/current'>
             <ManageSpots />
           </Route>
+          <Route path='/spots/:id/edit'>
+            <UpdateSpotForm />
+          </Route>
           <Route path='/spots/:id'>
             <SpotDetails />
           </Route>

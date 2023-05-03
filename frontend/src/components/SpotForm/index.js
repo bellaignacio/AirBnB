@@ -107,7 +107,7 @@ function SpotForm({ spot, formType }) {
 
     return (
         <>
-            <h1>Create a new Spot</h1>
+            <h1>{formType === 'Create Spot' ? "Create a new Spot" : "Update your Spot"}</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <h2>Where's your place located?</h2>

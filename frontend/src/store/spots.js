@@ -70,6 +70,7 @@ export const createSpot = (spot) => async dispatch => {
             price
         })
     });
+
     const data = await spotResponse.json();
     dispatch(addSpot(data)); // does not include review info, image info, owner info
 

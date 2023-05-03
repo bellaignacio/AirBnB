@@ -26,6 +26,26 @@ function SpotForm({ spot, formType }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors({});
+
+        if (description.length < 30) {
+            window.alert('Description needs a minimum of 30 characters');
+        }
+        if (!previewImage) {
+            window.alert('Preview image is required');
+        }
+        if (imageOne && !imageOne.endsWith('.png', '.jpg', '.jpeg')) {
+            window.alert('Image URL must end in .png, .jpg, .jpeg');
+        }
+        if (imageTwo && !imageTwo.endsWith('.png', '.jpg', '.jpeg')) {
+            window.alert('Image URL must end in .png, .jpg, .jpeg');
+        }
+        if (imageThree && !imageThree.endsWith('.png', '.jpg', '.jpeg')) {
+            window.alert('Image URL must end in .png, .jpg, .jpeg');
+        }
+        if (imageFour && !imageFour.endsWith('.png', '.jpg', '.jpeg')) {
+            window.alert('Image URL must end in .png, .jpg, .jpeg');
+        }
+
         dispatch(
             spotsActions.createSpot({
                 address,
@@ -44,12 +64,43 @@ function SpotForm({ spot, formType }) {
                 imageFour
             })
         )
+            //.then() // check for frontend errors here (no validation errors)?
             .then(res => history.push(`/spots/${res}`))
             .catch(async (res) => {
-                console.log(res);
                 const data = await res.json();
                 if (data && data.errors) {
                     setErrors(data.errors);
+                    // check for frontend errors here too (includes validation errors)?
+                    // if (description.length < 30) {
+                    //     setErrors(prevErrors => {
+                    //         return { ...prevErrors, description: 'Description needs a minimum of 30 characters' };
+                    //     });
+                    // }
+                    // if (!previewImage) {
+                    //     setErrors(prevErrors => {
+                    //         return { ...prevErrors, previewImage: 'Preview image is required' };
+                    //     });
+                    // }
+                    // if (imageOne && !imageOne.endsWith('.png', '.jpg', '.jpeg')) {
+                    //     setErrors(prevErrors => {
+                    //         return { ...prevErrors, imageOne: 'Image URL must end in .png, .jpg, .jpeg' };
+                    //     });
+                    // }
+                    // if (imageTwo && !imageTwo.endsWith('.png', '.jpg', '.jpeg')) {
+                    //     setErrors(prevErrors => {
+                    //         return { ...prevErrors, imageTwo: 'Image URL must end in .png, .jpg, .jpeg' };
+                    //     });
+                    // }
+                    // if (imageThree && !imageThree.endsWith('.png', '.jpg', '.jpeg')) {
+                    //     setErrors(prevErrors => {
+                    //         return { ...prevErrors, imageThree: 'Image URL must end in .png, .jpg, .jpeg' };
+                    //     });
+                    // }
+                    // if (imageFour && !imageFour.endsWith('.png', '.jpg', '.jpeg')) {
+                    //     setErrors(prevErrors => {
+                    //         return { ...prevErrors, imageFour: 'Image URL must end in .png, .jpg, .jpeg' };
+                    //     });
+                    // }
                 }
             });
     };
@@ -173,24 +224,28 @@ function SpotForm({ spot, formType }) {
                         onChange={(e) => setImageOne(e.target.value)}
                         placeholder="Image URL"
                     />
+                    {errors.imageOne && <p className="error-msg">{errors.imageOne}</p>}
                     <input
                         type="text"
                         value={imageTwo}
                         onChange={(e) => setImageTwo(e.target.value)}
                         placeholder="Image URL"
                     />
+                    {errors.imageTwo && <p className="error-msg">{errors.imageTwo}</p>}
                     <input
                         type="text"
                         value={imageThree}
                         onChange={(e) => setImageThree(e.target.value)}
                         placeholder="Image URL"
                     />
+                    {errors.imageThree && <p className="error-msg">{errors.imageThree}</p>}
                     <input
                         type="text"
                         value={imageFour}
                         onChange={(e) => setImageFour(e.target.value)}
                         placeholder="Image URL"
                     />
+                    {errors.imageFour && <p className="error-msg">{errors.imageFour}</p>}
                 </div>
                 <button type="submit">Create Spot</button>
             </form>

@@ -1,5 +1,7 @@
 import { NavLink, useHistory } from 'react-router-dom';
 import dummyImage from './download.png';
+import OpenModalButton from '../OpenModalButton';
+import DeleteSpotModal from '../DeleteSpotModal';
 
 function SpotTile({ spot, userOnly }) {
     const history = useHistory();
@@ -17,7 +19,12 @@ function SpotTile({ spot, userOnly }) {
                 <img src={dummyImage} alt='dummy house'/>
             </NavLink>
             {userOnly && <button onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>}
-            {userOnly && <button onClick={() => window.alert('Clicked Delete')}>Delete</button>}
+            {userOnly &&
+                <OpenModalButton
+                    modalComponent={<DeleteSpotModal id={spot.id}/>}
+                    buttonText="Delete"
+                />
+            }
         </div>
     );
 }

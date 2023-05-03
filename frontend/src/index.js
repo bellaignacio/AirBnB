@@ -23,6 +23,7 @@ if (process.env.NODE_ENV !== "production") {
   window.store = store;
   window.sessionActions = sessionActions;
   window.spotsActions = spotsActions;
+  window.reviewsActions = reviewsActions;
 }
 
 // Wrap the application with the Modal provider and render the Modal component

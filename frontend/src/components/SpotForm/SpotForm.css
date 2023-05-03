@@ -1,0 +1,29 @@
+form {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+}
+
+form > div {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+}
+
+input {
+    margin: 2px;
+}
+
+button {
+    width: 200px;
+    background: rgb(60, 56, 56);
+    color: rgb(255, 255, 255);
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.error-msg {
+    color: red;
+}

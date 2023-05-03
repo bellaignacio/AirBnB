@@ -1,7 +1,9 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import dummyImage from './download.png';
 
-function SpotTile({ spot }) {
+function SpotTile({ spot, userOnly }) {
+    const history = useHistory();
+
     return (
         <div>
             <h2>SpotTile: {spot.name}</h2>
@@ -14,6 +16,8 @@ function SpotTile({ spot }) {
             <NavLink to={`/spots/${spot.id}`}>
                 <img src={dummyImage} alt='dummy house'/>
             </NavLink>
+            {userOnly && <button onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>}
+            {userOnly && <button onClick={() => window.alert('Clicked Delete')}>Delete</button>}
         </div>
     );
 }

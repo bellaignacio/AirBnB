@@ -17,7 +17,10 @@ function SpotForm({ spot, formType }) {
     const [name, setName] = useState(spot.name);
     const [price, setPrice] = useState(spot.price);
     const [previewImage, setPreviewImage] = useState(spot.previewImage);
-    // const [images, setImages] = useState([]);
+    const [imageOne, setImageOne] = useState(spot.imageOne);
+    const [imageTwo, setImageTwo] = useState(spot.imageTwo);
+    const [imageThree, setImageThree] = useState(spot.imageThree);
+    const [imageFour, setImageFour] = useState(spot.imageFour);
     const [errors, setErrors] = useState({});
 
     const handleSubmit = (e) => {
@@ -33,11 +36,17 @@ function SpotForm({ spot, formType }) {
                 lng,
                 name,
                 description,
-                price
+                price,
+                previewImage,
+                imageOne,
+                imageTwo,
+                imageThree,
+                imageFour
             })
         )
             .then(res => history.push(`/spots/${res}`))
             .catch(async (res) => {
+                console.log(res);
                 const data = await res.json();
                 if (data && data.errors) {
                     setErrors(data.errors);
@@ -158,12 +167,30 @@ function SpotForm({ spot, formType }) {
                         placeholder="Preview Image URL"
                     />
                     {errors.previewImage && <p className="error-msg">{errors.previewImage}</p>}
-                    {/* <input
+                    <input
                         type="text"
-                        value={images}
-                        onChange={(e) => setImages(images => images.push...)}
+                        value={imageOne}
+                        onChange={(e) => setImageOne(e.target.value)}
                         placeholder="Image URL"
-                    /> */}
+                    />
+                    <input
+                        type="text"
+                        value={imageTwo}
+                        onChange={(e) => setImageTwo(e.target.value)}
+                        placeholder="Image URL"
+                    />
+                    <input
+                        type="text"
+                        value={imageThree}
+                        onChange={(e) => setImageThree(e.target.value)}
+                        placeholder="Image URL"
+                    />
+                    <input
+                        type="text"
+                        value={imageFour}
+                        onChange={(e) => setImageFour(e.target.value)}
+                        placeholder="Image URL"
+                    />
                 </div>
                 <button type="submit">Create Spot</button>
             </form>

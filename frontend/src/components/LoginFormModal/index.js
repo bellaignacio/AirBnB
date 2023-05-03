@@ -51,9 +51,7 @@ function LoginFormModal() {
                 </label>
                 <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
                 <button onClick={(e) => {
-                    setCredential('Demo-lition');
-                    setPassword('passwordDemo');
-                    dispatch(sessionActions.login({ credential, password }))
+                    dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'passwordDemo' }))
                         .then(closeModal);
                 }}>Demo User</button>
             </form>

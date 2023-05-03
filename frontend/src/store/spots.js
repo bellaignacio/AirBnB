@@ -28,24 +28,87 @@ const addSpot = (spot) => {
 export const getAllSpots = () => async dispatch => {
     const response = await csrfFetch('/api/spots');
     const data = await response.json();
-    dispatch(loadAllSpots(data.Spots));
+    dispatch(loadAllSpots(data.Spots)); // includes only previewImage, avgRating
     return response;
 };
 
 export const getSpot = (id) => async dispatch => {
     const response = await csrfFetch(`/api/spots/${id}`);
     const data = await response.json();
-    dispatch(loadCurrentSpot(data));
+    dispatch(loadCurrentSpot(data)); // includes numReviews, avgStarRating, SpotImages, Owner
     return response;
 };
 
 export const createSpot = (spot) => async dispatch => {
-    const response = await csrfFetch('/api/spots', {
+    const {
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price,
+        previewImage,
+        imageOne,
+        imageTwo,
+        imageThree,
+        imageFour
+    } = spot;
+    const spotResponse = await csrfFetch('/api/spots', {
         method: 'POST',
-        body: JSON.stringify(spot)
+        body: JSON.stringify({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        })
     });
-    const data = await response.json();
-    dispatch(addSpot(data));
+    const data = await spotResponse.json();
+    dispatch(addSpot(data)); // does not include review info, image info, owner info
+
+    if (previewImage) await csrfFetch(`/api/spots/${data.id}/images`, {
+        method: 'POST',
+        body: JSON.stringify({
+            url: previewImage,
+            preview: true
+        })
+    });
+    if (imageOne) await csrfFetch(`/api/spots/${data.id}/images`, {
+        method: 'POST',
+        body: JSON.stringify({
+            url: imageOne,
+            preview: false
+        })
+    });
+    if (imageTwo) await csrfFetch(`/api/spots/${data.id}/images`, {
+        method: 'POST',
+        body: JSON.stringify({
+            url: imageTwo,
+            preview: false
+        })
+    });
+    if (imageThree) await csrfFetch(`/api/spots/${data.id}/images`, {
+        method: 'POST',
+        body: JSON.stringify({
+            url: imageThree,
+            preview: false
+        })
+    });
+    if (imageFour) await csrfFetch(`/api/spots/${data.id}/images`, {
+        method: 'POST',
+        body: JSON.stringify({
+            url: imageFour,
+            preview: false
+        })
+    });
+
     return data.id;
 };
 

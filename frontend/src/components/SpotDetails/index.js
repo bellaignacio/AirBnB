@@ -30,7 +30,7 @@ function SpotDetails() {
                     <button onClick={() => window.alert('Feature Coming Soon...')}>Reserve</button>
                     <li>Location: {spot?.city}, {spot?.state}, {spot?.country}</li>
                     {spot?.SpotImages?.map(imgObj => (
-                        <li key={imgObj.id}>Image URL: {imgObj.url}</li>
+                        <li key={imgObj.id}>{imgObj.preview ? 'Preview ' : ''}Image URL: {imgObj.url}</li>
                     ))}
                     <li>Average Rating: {spot?.avgStarRating}</li>
                     <li>Review Count: {spot?.numReviews}</li>

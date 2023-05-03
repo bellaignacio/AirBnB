@@ -15,7 +15,7 @@ function SpotsIndex() {
         <>
             <h1>SpotsIndex</h1>
             {spots?.map(spotObj => (
-                <SpotTile spot={spotObj} />
+                <SpotTile key={spotObj.id} spot={spotObj} />
             ))}
         </>
     );

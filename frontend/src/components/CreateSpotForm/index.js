@@ -11,7 +11,11 @@ function CreateSpotForm() {
         description: '',
         name: '',
         price: '',
-        previewImage: ''
+        previewImage: '',
+        imageOne: '',
+        imageTwo: '',
+        imageThree: '',
+        imageFour: ''
     };
 
     return (

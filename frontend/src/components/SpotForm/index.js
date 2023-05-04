@@ -240,7 +240,7 @@ function SpotForm({ spot, formType }) {
                     />
                     {errors.imageFour && <p className="error-msg">{errors.imageFour}</p>}
                 </div>
-                <button type="submit">Create Spot</button>
+                <button type="submit">{formType === 'Create Spot' ? "Create Spot" : "Update Spot"}</button>
             </form>
         </>
     );

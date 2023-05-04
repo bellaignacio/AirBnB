@@ -4,6 +4,7 @@ const LOAD_ALL_SPOTS = 'spots/loadAllSpots';
 const LOAD_USER_SPOTS = 'spots/loadUserSpots';
 const LOAD_CURRENT_SPOT = 'spots/loadCurrentSpot';
 const ADD_SPOT = 'spots/addSpot';
+const EDIT_SPOT = 'spots/editSpot';
 const REMOVE_SPOT = 'spots/removeSpot';
 
 const loadAllSpots = (spots) => {
@@ -30,6 +31,13 @@ const loadCurrentSpot = (spot) => {
 const addSpot = (spot) => {
     return {
         type: ADD_SPOT,
+        spot
+    };
+};
+
+const editSpot = (spot) => {
+    return {
+        type: EDIT_SPOT,
         spot
     };
 };
@@ -136,6 +144,81 @@ export const createSpot = (spot) => async dispatch => {
     return data.id;
 };
 
+export const updateSpot = (spot) => async dispatch => {
+    const {
+        id,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price,
+        previewImage,
+        imageOne,
+        imageTwo,
+        imageThree,
+        imageFour
+    } = spot;
+    const spotResponse = await csrfFetch(`/api/spots/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        })
+    });
+
+    const data = await spotResponse.json();
+    dispatch(editSpot(data)); // does not include review info, image info, owner info
+
+    // if (previewImage) await csrfFetch(`/api/spots/${data.id}/images`, {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //         url: previewImage,
+    //         preview: true
+    //     })
+    // });
+    // if (imageOne) await csrfFetch(`/api/spots/${data.id}/images`, {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //         url: imageOne,
+    //         preview: false
+    //     })
+    // });
+    // if (imageTwo) await csrfFetch(`/api/spots/${data.id}/images`, {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //         url: imageTwo,
+    //         preview: false
+    //     })
+    // });
+    // if (imageThree) await csrfFetch(`/api/spots/${data.id}/images`, {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //         url: imageThree,
+    //         preview: false
+    //     })
+    // });
+    // if (imageFour) await csrfFetch(`/api/spots/${data.id}/images`, {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //         url: imageFour,
+    //         preview: false
+    //     })
+    // });
+
+    return data.id;
+};
+
 export const deleteSpot = (id) => async dispatch => {
     const response = await csrfFetch(`/api/spots/${id}`, {
         method: 'DELETE'
@@ -165,6 +248,13 @@ const spotsReducer = (state = { allSpots: {}, userSpots: {}, currentSpot: {} }, 
             return newState;
         case ADD_SPOT:
             newState = { ...state, currentSpot: action.spot };
+            newState.allSpots[action.spot.id] = action.spot;
+            newState.userSpots[action.spot.id] = action.spot;
+            return newState;
+        case EDIT_SPOT:
+            newState = { ...state, currentSpot: action.spot };
+            newState.allSpots[action.spot.id] = { ...state.allSpots[action.spot.id], ...action.spot };
+            newState.userSpots[action.spot.id] = { ...state.userSpots[action.spot.id], ...action.spot };
             return newState;
         case REMOVE_SPOT:
             newState = { ...state };

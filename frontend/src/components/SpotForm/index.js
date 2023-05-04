@@ -27,82 +27,83 @@ function SpotForm({ spot, formType }) {
         e.preventDefault();
         setErrors({});
 
-        if (description.length < 30) {
-            window.alert('Description needs a minimum of 30 characters');
-        }
-        if (!previewImage) {
-            window.alert('Preview image is required');
-        }
-        if (imageOne && !imageOne.endsWith('.png', '.jpg', '.jpeg')) {
-            window.alert('Image URL must end in .png, .jpg, .jpeg');
-        }
-        if (imageTwo && !imageTwo.endsWith('.png', '.jpg', '.jpeg')) {
-            window.alert('Image URL must end in .png, .jpg, .jpeg');
-        }
-        if (imageThree && !imageThree.endsWith('.png', '.jpg', '.jpeg')) {
-            window.alert('Image URL must end in .png, .jpg, .jpeg');
-        }
-        if (imageFour && !imageFour.endsWith('.png', '.jpg', '.jpeg')) {
-            window.alert('Image URL must end in .png, .jpg, .jpeg');
-        }
+        const payload = {
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price,
+            previewImage,
+            imageOne,
+            imageTwo,
+            imageThree,
+            imageFour
+        };
 
-        dispatch(
-            spotsActions.createSpot({
-                address,
-                city,
-                state,
-                country,
-                lat,
-                lng,
-                name,
-                description,
-                price,
-                previewImage,
-                imageOne,
-                imageTwo,
-                imageThree,
-                imageFour
-            })
-        )
-            //.then() // check for frontend errors here (no validation errors)?
-            .then(res => history.push(`/spots/${res}`))
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) {
-                    setErrors(data.errors);
-                    // check for frontend errors here too (includes validation errors)?
-                    // if (description.length < 30) {
-                    //     setErrors(prevErrors => {
-                    //         return { ...prevErrors, description: 'Description needs a minimum of 30 characters' };
-                    //     });
-                    // }
-                    // if (!previewImage) {
-                    //     setErrors(prevErrors => {
-                    //         return { ...prevErrors, previewImage: 'Preview image is required' };
-                    //     });
-                    // }
-                    // if (imageOne && !imageOne.endsWith('.png', '.jpg', '.jpeg')) {
-                    //     setErrors(prevErrors => {
-                    //         return { ...prevErrors, imageOne: 'Image URL must end in .png, .jpg, .jpeg' };
-                    //     });
-                    // }
-                    // if (imageTwo && !imageTwo.endsWith('.png', '.jpg', '.jpeg')) {
-                    //     setErrors(prevErrors => {
-                    //         return { ...prevErrors, imageTwo: 'Image URL must end in .png, .jpg, .jpeg' };
-                    //     });
-                    // }
-                    // if (imageThree && !imageThree.endsWith('.png', '.jpg', '.jpeg')) {
-                    //     setErrors(prevErrors => {
-                    //         return { ...prevErrors, imageThree: 'Image URL must end in .png, .jpg, .jpeg' };
-                    //     });
-                    // }
-                    // if (imageFour && !imageFour.endsWith('.png', '.jpg', '.jpeg')) {
-                    //     setErrors(prevErrors => {
-                    //         return { ...prevErrors, imageFour: 'Image URL must end in .png, .jpg, .jpeg' };
-                    //     });
-                    // }
-                }
-            });
+        if (description.length < 30) window.alert('Description needs a minimum of 30 characters');
+        if (!previewImage) window.alert('Preview image is required');
+        if (imageOne && !imageOne.endsWith('.png', '.jpg', '.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
+        if (imageTwo && !imageTwo.endsWith('.png', '.jpg', '.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
+        if (imageThree && !imageThree.endsWith('.png', '.jpg', '.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
+        if (imageFour && !imageFour.endsWith('.png', '.jpg', '.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
+
+        if (formType === 'Create Spot') {
+            dispatch(spotsActions.createSpot(payload))
+                //.then() // check for frontend errors here (no validation errors)?
+                .then(res => history.push(`/spots/${res}`))
+                .catch(async (res) => {
+                    const data = await res.json();
+                    if (data && data.errors) {
+                        setErrors(data.errors);
+                        // check for frontend errors here too (includes validation errors)?
+                        // if (description.length < 30) {
+                        //     setErrors(prevErrors => {
+                        //         return { ...prevErrors, description: 'Description needs a minimum of 30 characters' };
+                        //     });
+                        // }
+                        // if (!previewImage) {
+                        //     setErrors(prevErrors => {
+                        //         return { ...prevErrors, previewImage: 'Preview image is required' };
+                        //     });
+                        // }
+                        // if (imageOne && !imageOne.endsWith('.png', '.jpg', '.jpeg')) {
+                        //     setErrors(prevErrors => {
+                        //         return { ...prevErrors, imageOne: 'Image URL must end in .png, .jpg, .jpeg' };
+                        //     });
+                        // }
+                        // if (imageTwo && !imageTwo.endsWith('.png', '.jpg', '.jpeg')) {
+                        //     setErrors(prevErrors => {
+                        //         return { ...prevErrors, imageTwo: 'Image URL must end in .png, .jpg, .jpeg' };
+                        //     });
+                        // }
+                        // if (imageThree && !imageThree.endsWith('.png', '.jpg', '.jpeg')) {
+                        //     setErrors(prevErrors => {
+                        //         return { ...prevErrors, imageThree: 'Image URL must end in .png, .jpg, .jpeg' };
+                        //     });
+                        // }
+                        // if (imageFour && !imageFour.endsWith('.png', '.jpg', '.jpeg')) {
+                        //     setErrors(prevErrors => {
+                        //         return { ...prevErrors, imageFour: 'Image URL must end in .png, .jpg, .jpeg' };
+                        //     });
+                        // }
+                    }
+                });
+        } else if (formType === 'Update Spot') {
+            dispatch(spotsActions.updateSpot({ ...payload, id: spot.id }))
+                //.then() // check for frontend errors here (no validation errors)?
+                .then(res => history.push(`/spots/${res}`))
+                .catch(async (res) => {
+                    const data = await res.json();
+                    if (data && data.errors) {
+                        setErrors(data.errors);
+                        // check for frontend errors here too (includes validation errors)?
+                    }
+                });
+        }
     };
 
     return (

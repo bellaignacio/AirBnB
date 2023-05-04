@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import * as spotsActions from '../../store/spots';
@@ -8,16 +8,18 @@ function ManageSpots() {
     const history = useHistory();
     const dispatch = useDispatch();
     const spots = useSelector(state => Object.values(state.spots.userSpots));
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        dispatch(spotsActions.getUserSpots());
+        dispatch(spotsActions.getUserSpots())
+            .then(() => setIsLoaded(true));
     }, [dispatch]);
 
     return (
         <>
             <h1>Manage Your Spots</h1>
             <button onClick={() => history.push('/spots/new')}>Create a New Spot</button>
-            <SpotsIndex spots={spots} userOnly={true}/>
+            {isLoaded && <SpotsIndex spots={spots} userOnly={true}/>}
         </>
     );
 }

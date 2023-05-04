@@ -14,7 +14,8 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(sessionActions.restoreUser())
+      .then(() => setIsLoaded(true));
   }, [dispatch]);
 
   return (
@@ -37,7 +38,8 @@ function App() {
           <Route path='/spots/:id'>
             <SpotDetails />
           </Route>
-        </Switch>}
+        </Switch>
+      }
     </>
   );
 }

@@ -46,10 +46,11 @@ function SpotForm({ spot, formType }) {
 
         if (description.length < 30) window.alert('Description needs a minimum of 30 characters');
         if (!previewImage) window.alert('Preview image is required');
-        if (imageOne && !imageOne.endsWith('.png', '.jpg', '.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
-        if (imageTwo && !imageTwo.endsWith('.png', '.jpg', '.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
-        if (imageThree && !imageThree.endsWith('.png', '.jpg', '.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
-        if (imageFour && !imageFour.endsWith('.png', '.jpg', '.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
+        if (previewImage && !previewImage.endsWith('.png') && !previewImage.endsWith('.jpg') && !previewImage.endsWith('.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
+        if (imageOne && !imageOne.endsWith('.png') && !imageOne.endsWith('.jpg') && !imageOne.endsWith('.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
+        if (imageTwo && !imageTwo.endsWith('.png') && !imageTwo.endsWith('.jpg') && !imageTwo.endsWith('.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
+        if (imageThree && !imageThree.endsWith('.png') && !imageThree.endsWith('.jpg') && !imageThree.endsWith('.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
+        if (imageFour && !imageFour.endsWith('.png') && !imageFour.endsWith('.jpg') && !imageFour.endsWith('.jpeg')) window.alert('Image URL must end in .png, .jpg, .jpeg');
 
         if (formType === 'Create Spot') {
             dispatch(spotsActions.createSpot(payload))
@@ -60,36 +61,6 @@ function SpotForm({ spot, formType }) {
                     if (data && data.errors) {
                         setErrors(data.errors);
                         // check for frontend errors here too (includes validation errors)?
-                        // if (description.length < 30) {
-                        //     setErrors(prevErrors => {
-                        //         return { ...prevErrors, description: 'Description needs a minimum of 30 characters' };
-                        //     });
-                        // }
-                        // if (!previewImage) {
-                        //     setErrors(prevErrors => {
-                        //         return { ...prevErrors, previewImage: 'Preview image is required' };
-                        //     });
-                        // }
-                        // if (imageOne && !imageOne.endsWith('.png', '.jpg', '.jpeg')) {
-                        //     setErrors(prevErrors => {
-                        //         return { ...prevErrors, imageOne: 'Image URL must end in .png, .jpg, .jpeg' };
-                        //     });
-                        // }
-                        // if (imageTwo && !imageTwo.endsWith('.png', '.jpg', '.jpeg')) {
-                        //     setErrors(prevErrors => {
-                        //         return { ...prevErrors, imageTwo: 'Image URL must end in .png, .jpg, .jpeg' };
-                        //     });
-                        // }
-                        // if (imageThree && !imageThree.endsWith('.png', '.jpg', '.jpeg')) {
-                        //     setErrors(prevErrors => {
-                        //         return { ...prevErrors, imageThree: 'Image URL must end in .png, .jpg, .jpeg' };
-                        //     });
-                        // }
-                        // if (imageFour && !imageFour.endsWith('.png', '.jpg', '.jpeg')) {
-                        //     setErrors(prevErrors => {
-                        //         return { ...prevErrors, imageFour: 'Image URL must end in .png, .jpg, .jpeg' };
-                        //     });
-                        // }
                     }
                 });
         } else if (formType === 'Update Spot') {

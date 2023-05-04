@@ -10,6 +10,7 @@ const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 function SpotDetails() {
     const { id } = useParams();
     const dispatch = useDispatch();
+    const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spots.currentSpot);
     const spotReviews = useSelector(state => Object.values(state.reviews.spotReviews));
     const [isSpotLoaded, setIsSpotLoaded] = useState(false);
@@ -22,8 +23,7 @@ function SpotDetails() {
             .then(() => setIsReviewsLoaded(true));
     }, [dispatch]);
 
-    const sessionUser = useSelector(state => state.session.user);
-    const buttonClassName = (sessionUser ? "" : " hidden");
+    const buttonClassName = (!sessionUser || sessionUser?.id === spot.Owner.id) ? "hidden" : "";
 
     return (
         <>

@@ -19,7 +19,7 @@ function SignupFormModal() {
         e.preventDefault();
         if (password === confirmPassword) {
             setErrors({});
-            return dispatch(
+            dispatch(
                 sessionActions.signup({
                     email,
                     username,

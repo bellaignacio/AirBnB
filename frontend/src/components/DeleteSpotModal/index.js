@@ -6,8 +6,9 @@ function DeleteSpotModal({ id }) {
     const { closeModal } = useModal();
     const dispatch = useDispatch();
 
-    const deleteSpot = () => {
-        return dispatch(spotsActions.deleteSpot(id))
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(spotsActions.deleteSpot(id))
             .then(closeModal);
     };
 
@@ -15,8 +16,10 @@ function DeleteSpotModal({ id }) {
         <>
             <h1>Confirm Delete</h1>
             <p>Are you sure you want to remove this spot from the listings?</p>
-            <button onClick={deleteSpot}>Yes (Delete Spot)</button>
-            <button onClick={closeModal}>No (Keep Spot)</button>
+            <form onSubmit={handleSubmit}>
+                <button type="submit">Yes (Delete Spot)</button>
+                <button onClick={closeModal}>No (Keep Spot)</button>
+            </form>
         </>
     );
 }

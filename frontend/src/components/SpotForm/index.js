@@ -175,7 +175,6 @@ function SpotForm({ spot, formType }) {
                     <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        minLength="30"
                         placeholder="Please write at least 30 characters"
                     />
                     {errors.description && <p className="error-msg">{errors.description}</p>}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
+import OpenModalButton from '../OpenModalButton';
+import CreateReviewModal from '../CreateReviewModal';
 import * as spotsActions from "../../store/spots";
 import * as reviewsActions from "../../store/reviews";
 import './SpotDetails.css';
@@ -15,15 +17,16 @@ function SpotDetails() {
     const spotReviews = useSelector(state => Object.values(state.reviews.spotReviews));
     const [isSpotLoaded, setIsSpotLoaded] = useState(false);
     const [isReviewsLoaded, setIsReviewsLoaded] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
         dispatch(spotsActions.getSpot(id))
             .then(() => setIsSpotLoaded(true));
         dispatch(reviewsActions.getSpotReviews(id))
             .then(() => setIsReviewsLoaded(true));
+        if (!sessionUser) setIsVisible(false);
+        else if (sessionUser.id === spot.Owner.id) setIsVisible(false);
     }, [dispatch]);
-
-    const buttonClassName = (!sessionUser || sessionUser?.id === spot.Owner.id) ? "hidden" : "";
 
     return (
         <>
@@ -47,12 +50,12 @@ function SpotDetails() {
             {isReviewsLoaded &&
                 <div>
                     <ul>
-                        <button
-                            onClick={() => window.alert('Clicked Post Your Review')}
-                            className={buttonClassName}
-                        >
-                            Post Your Review
-                        </button>
+                        {isVisible &&
+                            <OpenModalButton
+                                modalComponent={<CreateReviewModal id={spot.id}/>}
+                                buttonText="Post Your Review"
+                            />
+                        }
                         {spotReviews?.map(reviewObj => {
                             const reviewMonth = MONTHS[new Date(reviewObj.createdAt).getMonth()];
                             const reviewYear = new Date(reviewObj.createdAt).getFullYear();

@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const LOAD_USER_REVIEWS = 'reviews/loadUserReviews';
 const LOAD_SPOT_REVIEWS = 'reviews/loadSpotReviews';
+const ADD_REVIEW = 'reviews/addReview';
 
 const loadUserReviews = (reviews) => {
     return {
@@ -14,6 +15,13 @@ const loadSpotReviews = (reviews) => {
     return {
         type: LOAD_SPOT_REVIEWS,
         reviews
+    };
+};
+
+const addReview = (review) => {
+    return {
+        type: ADD_REVIEW,
+        review
     };
 };
 
@@ -31,6 +39,20 @@ export const getSpotReviews = (id) => async dispatch => {
     return response;
 };
 
+export const createReview = (payload) => async dispatch => {
+    const { id, review, stars } = payload;
+    const response = await csrfFetch(`/api/spots/${id}/reviews`, {
+        method: 'POST',
+        body: JSON.stringify({
+            review,
+            stars
+        })
+    });
+    const data = await response.json();
+    dispatch(addReview(data));
+    return response;
+};
+
 const reviewsReducer = (state = { userReviews: {}, spotReviews: {} }, action) => {
     let newState;
     switch (action.type) {
@@ -45,6 +67,11 @@ const reviewsReducer = (state = { userReviews: {}, spotReviews: {} }, action) =>
             action.reviews.forEach(reviewObj => {
                 newState.spotReviews[reviewObj.id] = reviewObj;
             });
+            return newState;
+        case ADD_REVIEW:
+            newState = { ...state };
+            newState.userReviews[action.review.id] = action.review;
+            newState.spotReviews[action.review.id] = action.review;
             return newState;
         default:
             return state;

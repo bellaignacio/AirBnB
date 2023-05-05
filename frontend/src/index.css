@@ -1,1 +1,48 @@
 /* TODO Add site wide styles */
+
+* {
+    font-size: 14pt;
+    font-style: normal;
+}
+
+.hidden {
+    display: none;
+}
+
+h1 {
+    font-size: 24pt;
+    font-style: bold;
+}
+
+h2 {
+    font-size: 18pt;
+    font-style: bold;
+}
+
+button {
+    font-size: 14pt;
+    font-style: normal;
+    width: auto;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button.normal {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #cccccc;
+}
+
+button.accent {
+    background-color: #999999;
+    color: #ffffff;
+    border-color: #000000;
+}
+
+button.primary {
+    background-color: #ff5a5f;
+    color: #ffffff;
+    border-color: #000000;
+}

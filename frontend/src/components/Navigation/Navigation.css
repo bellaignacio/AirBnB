@@ -1,13 +1,43 @@
-.hidden {
+div.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0 20px;
+    border-bottom: 2px solid #cccccc;
+}
+
+div.menu-header {
+    display: flex;
+    gap: 5px;
+}
+
+.open-dropdown {
+    position: relative;
+}
+
+div.profile-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    padding: 5px;
+    box-shadow: 2px 2px 2px #cccccc;
+    position: absolute;
+    top: 60px;
+    right: 28px;
+}
+
+div.profile-dropdown.hidden {
     display: none;
 }
 
-button {
-    width: 200px;
-    background: rgb(60, 56, 56);
-    color: rgb(255, 255, 255);
+.logout-btn {
+    align-self: center;
 }
 
-button:hover {
-    cursor: pointer;
+div.profile-dropdown > * {
+    margin: 0;
+    padding: 2px;
 }

@@ -44,21 +44,17 @@ function ProfileButton({ user }) {
 
     return (
         <>
-            <button onClick={openMenu}>
+            <button className="open-dropdown" onClick={openMenu}>
                 <i className="fas fa-user-circle" />
             </button>
-            <ul className={ulClassName} ref={ulRef}>
+            <div className={ulClassName} ref={ulRef}>
                 {user ? (
                     <>
-                        <li>Hello, {user.username}</li>
-                        <li>{user.firstName} {user.lastName}</li>
-                        <li>{user.email}</li>
-                        <li>
-                            <NavLink to='/spots/current' onClick={closeMenu}>Manage Spots</NavLink>
-                        </li>
-                        <li>
-                            <button onClick={logout}>Log Out</button>
-                        </li>
+                        <p>Hello, {user.username}</p>
+                        <p>{user.firstName} {user.lastName}</p>
+                        <p>{user.email}</p>
+                        <NavLink to='/spots/current' onClick={closeMenu}>Manage Spots</NavLink>
+                        <button className="logout-btn accent" onClick={logout}>Log Out</button>
                     </>
                 ) : (
                     <>
@@ -74,7 +70,7 @@ function ProfileButton({ user }) {
                         />
                     </>
                 )}
-            </ul>
+            </div>
         </>
     );
 }

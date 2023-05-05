@@ -76,7 +76,7 @@ function SpotDetails() {
                                 <>
                                     <li key={reviewObj.id}>{reviewObj.stars} stars: "{reviewObj.review}"
                                         - {reviewObj.User?.firstName}, {reviewMonth} {reviewYear} </li>
-                                    {reviewObj.userId === sessionUser.id && <OpenModalButton
+                                    {reviewObj.userId === sessionUser?.id && <OpenModalButton
                                         modalComponent={<DeleteReviewModal id={reviewObj.id} />}
                                         buttonText="Delete"
                                     />}

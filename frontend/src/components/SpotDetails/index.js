@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import OpenModalButton from '../OpenModalButton';
 import CreateReviewModal from '../CreateReviewModal';
+import DeleteReviewModal from '../DeleteReviewModal';
 import * as spotsActions from "../../store/spots";
 import * as reviewsActions from "../../store/reviews";
 import './SpotDetails.css';
@@ -72,8 +73,14 @@ function SpotDetails() {
                             const reviewMonth = MONTHS[new Date(reviewObj.createdAt).getMonth()];
                             const reviewYear = new Date(reviewObj.createdAt).getFullYear();
                             return (
-                                <li key={reviewObj.id}>{reviewObj.stars} stars: "{reviewObj.review}"
-                                    - {reviewObj.User?.firstName}, {reviewMonth} {reviewYear} </li>
+                                <>
+                                    <li key={reviewObj.id}>{reviewObj.stars} stars: "{reviewObj.review}"
+                                        - {reviewObj.User?.firstName}, {reviewMonth} {reviewYear} </li>
+                                    {reviewObj.userId === sessionUser.id && <OpenModalButton
+                                        modalComponent={<DeleteReviewModal id={reviewObj.id} />}
+                                        buttonText="Delete"
+                                    />}
+                                </>
                             );
                         })}
                     </ul>

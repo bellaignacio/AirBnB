@@ -12,6 +12,22 @@ div.menu-header {
     gap: 5px;
 }
 
+.logo-title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: auto;
+    color: #ff0000;
+}
+
+.fa-couch {
+    font-size: 40pt;
+}
+
+.active {
+    text-decoration: none;
+}
+
 .open-dropdown {
     position: relative;
 }

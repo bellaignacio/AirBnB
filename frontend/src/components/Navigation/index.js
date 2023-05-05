@@ -9,9 +9,7 @@ function Navigation({ isLoaded }) {
 
     return (
         <div className="nav-header">
-            <div className="logo-title">
-                <NavLink exact to="/"><span><i className="fas fa-couch" /></span>SpotSurfing</NavLink>
-            </div>
+            <NavLink className="logo-title" exact to="/"><i className="fas fa-couch" /><h1>SpotSurfing</h1></NavLink>
             <div className="menu-header">
                 {sessionUser && (
                     <div>

@@ -10,7 +10,7 @@ function Navigation({ isLoaded }) {
     return (
         <ul>
             <li>
-                <NavLink exact to="/">Home</NavLink>
+                <NavLink exact to="/"><span><i className="fas fa-couch" /></span>SpotSurf</NavLink>
             </li>
             {sessionUser && (
                 <li>

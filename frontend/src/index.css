@@ -46,3 +46,7 @@ button.primary {
     color: #ffffff;
     border-color: #000000;
 }
+
+input {
+    background-color: #e8f0fe;
+}

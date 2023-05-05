@@ -20,5 +20,27 @@
 
 #modal-content {
     position: absolute;
+    top: 100px;
+    border-radius: 30px;
     background-color: white;
+}
+
+#modal-content > h2 {
+    text-align: center;
+}
+
+#modal-content > form {
+    padding: 20px;
+}
+
+#modal-content button:disabled {
+    background-color: #ffffff;
+    color: #cccccc;
+    border-color: #cccccc;
+}
+
+#modal-content button:not(disabled) {
+    background-color: #ff5a5f;
+    color: #ffffff;
+    border-color: #000000;
 }

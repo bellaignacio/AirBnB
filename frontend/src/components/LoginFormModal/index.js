@@ -29,7 +29,7 @@ function LoginFormModal() {
 
     return (
         <>
-            <h1>Log In</h1>
+            <h2>Log In</h2>
             {errors.message && (
                 <p className="error-msg">{errors.message}</p>
             )}

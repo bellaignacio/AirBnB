@@ -14,7 +14,7 @@ function DeleteReviewModal({ id }) {
 
     return (
         <>
-            <h1>Confirm Delete</h1>
+            <h2>Confirm Delete</h2>
             <p>Are you sure you want to delete this review?</p>
             <form onSubmit={handleSubmit}>
                 <button type="submit">Yes (Delete Review)</button>

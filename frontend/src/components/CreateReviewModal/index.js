@@ -32,7 +32,7 @@ function CreateReviewModal({ id }) {
 
     return (
         <>
-            <h1>How was your stay?</h1>
+            <h2>How was your stay?</h2>
             <form onSubmit={handleSubmit}>
             {errors.message && <p className="error-msg">{errors.message}</p>}
                 <textarea

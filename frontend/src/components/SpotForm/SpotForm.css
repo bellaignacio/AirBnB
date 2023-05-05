@@ -1,19 +1,5 @@
-form {
-    display: flex;
-    justify-content: left;
-    flex-direction: column;
-}
-
 form > div {
     display: flex;
     justify-content: left;
     flex-direction: column;
-}
-
-input {
-    margin: 2px;
-}
-
-.error-msg {
-    color: red;
 }

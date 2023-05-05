@@ -50,3 +50,17 @@ button.primary {
 input {
     background-color: #e8f0fe;
 }
+
+form {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px;
+}
+
+.error-msg {
+    color: red;
+    padding: 0px;
+    margin: 5px
+}

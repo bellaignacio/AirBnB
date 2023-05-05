@@ -27,11 +27,12 @@
 
 #modal-content > h2 {
     text-align: center;
+    margin: 20px auto 0px;
 }
 
-#modal-content > form {
+/* #modal-content > form {
     padding: 20px;
-}
+} */
 
 #modal-content button:disabled {
     background-color: #ffffff;

@@ -30,10 +30,10 @@ function LoginFormModal() {
     return (
         <>
             <h2>Log In</h2>
-            {errors.message && (
-                <p className="error-msg">{errors.message}</p>
-            )}
             <form onSubmit={handleSubmit}>
+                {errors.message && (
+                    <p className="error-msg">{errors.message}</p>
+                )}
                 <label>
                     Username or Email
                     <input

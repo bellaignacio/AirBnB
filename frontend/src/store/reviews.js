@@ -58,6 +58,7 @@ export const createReview = (payload) => async dispatch => {
     });
     const data = await response.json();
     dispatch(addReview(data));
+    dispatch(getSpotReviews(id));
     return response;
 };
 

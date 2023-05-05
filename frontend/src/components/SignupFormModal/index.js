@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
 import "./SignupForm.css";
 
 function SignupFormModal() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [firstName, setFirstName] = useState("");
@@ -29,6 +31,7 @@ function SignupFormModal() {
                 })
             )
                 .then(closeModal)
+                .then(() => history.push('/'))
                 .catch(async (res) => {
                     const data = await res.json();
                     if (data && data.errors) {
@@ -52,7 +55,6 @@ function SignupFormModal() {
                         type="text"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
                     />
                 </label>
                 {errors.email && <p className="error-msg">{errors.email}</p>}
@@ -62,7 +64,6 @@ function SignupFormModal() {
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        required
                     />
                 </label>
                 {errors.username && <p className="error-msg">{errors.username}</p>}
@@ -72,7 +73,6 @@ function SignupFormModal() {
                         type="text"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
-                        required
                     />
                 </label>
                 {errors.firstName && <p className="error-msg">{errors.firstName}</p>}
@@ -82,7 +82,6 @@ function SignupFormModal() {
                         type="text"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
-                        required
                     />
                 </label>
                 {errors.lastName && <p className="error-msg">{errors.lastName}</p>}
@@ -92,7 +91,6 @@ function SignupFormModal() {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
                     />
                 </label>
                 {errors.password && <p className="error-msg">{errors.password}</p>}
@@ -102,13 +100,12 @@ function SignupFormModal() {
                         type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
                     />
                 </label>
                 {errors.confirmPassword && (
                     <p className="error-msg">{errors.confirmPassword}</p>
                 )}
-                <button type="submit">Sign Up</button>
+                <button type="submit" disabled={!email || !username || !firstName || !lastName || !password || !confirmPassword}>Sign Up</button>
             </form>
         </>
     );

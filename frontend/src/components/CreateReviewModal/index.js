@@ -28,7 +28,7 @@ function CreateReviewModal({ id }) {
                     setErrors({ message: data.message });
                 }
             });
-        dispatch(reviewsActions.getSpotReviews(id));
+        // dispatch(reviewsActions.getSpotReviews(id));
     };
 
     return (

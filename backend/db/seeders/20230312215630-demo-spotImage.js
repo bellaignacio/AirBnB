@@ -12,32 +12,47 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         spotId: 1,
-        url: 'www.example.com/demo-crib.png',
+        url: 'https://i.ibb.co/kQmQYjh/man-cave-preview.jpg',
         preview: true
       },
       {
         spotId: 1,
-        url: 'www.example.com/alt-demo-crib.png',
+        url: 'https://i.ibb.co/1mVBSf4/man-cave-alt1.jpg',
+        preview: false
+      },
+      {
+        spotId: 1,
+        url: 'https://i.ibb.co/Bj6nTj6/man-cave-alt2.jpg',
         preview: false
       },
       {
         spotId: 2,
-        url: 'www.example.com/one-mansion.png',
+        url: 'https://i.ibb.co/3cTx57s/mansion-preview.jpg',
         preview: true
       },
       {
         spotId: 2,
-        url: 'www.example.com/alt-one-mansion.png',
+        url: 'https://i.ibb.co/prp0ZHF/mansion-alt1.jpg',
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: 'https://i.ibb.co/7r1w7PW/mansion-alt2.jpg',
         preview: false
       },
       {
         spotId: 3,
-        url: 'www.example.com/two-bungalow.png',
+        url: 'https://i.ibb.co/jJNnxpZ/bungalow-preview.jpg',
         preview: true
       },
       {
         spotId: 3,
-        url: 'www.example.com/alt-two-bungalow.png',
+        url: 'https://i.ibb.co/pWhJ41f/bungalow-alt1.jpg',
+        preview: false
+      },
+      {
+        spotId: 3,
+        url: 'https://i.ibb.co/f8bf8sm/bungalow-alt2.jpg',
         preview: false
       }
     ], {});
@@ -47,7 +62,7 @@ module.exports = {
     options.tableName = 'SpotImages';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      id: { [Op.in]: [1, 2, 3, 4, 5, 6] },
+      id: { [Op.in]: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
     }, {});
   }
 };

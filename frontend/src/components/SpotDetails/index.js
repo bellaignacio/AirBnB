@@ -46,12 +46,15 @@ function SpotDetails() {
                 <div>
                     <ul>
                         <li>Name: {spot?.name}</li>
+                        <li>Description: {spot?.description}</li>
                         <li>Price: {spot?.price}</li>
                         <button onClick={() => window.alert('Feature Coming Soon...')}>Reserve</button>
                         <li>Location: {spot?.city}, {spot?.state}, {spot?.country}</li>
-                        {spot?.SpotImages?.map(imgObj => (
-                            <li key={imgObj.id}>{imgObj.preview ? 'Preview ' : ''}Image URL: {imgObj.url}</li>
-                        ))}
+                        {spot?.SpotImages?.map(imgObj => {
+                            return (
+                                <img className={imgObj.preview ? 'preview-img' : 'alt-img'} src={imgObj.url} alt={imgObj.url.split('/').pop()}/>
+                            );
+                        })}
                         {spot?.avgStarRating > 0 && <li>Average Rating: {spot?.avgStarRating}</li>}
                         {spot?.numReviews === 0 && <li>New (No Reviews Yet)</li>}
                         {spot?.numReviews === 1 && <li>1 Review</li>}

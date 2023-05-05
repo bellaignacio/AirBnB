@@ -17,15 +17,25 @@ function SpotDetails() {
     const spotReviews = useSelector(state => Object.values(state.reviews.spotReviews));
     const [isSpotLoaded, setIsSpotLoaded] = useState(false);
     const [isReviewsLoaded, setIsReviewsLoaded] = useState(false);
-    const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        dispatch(spotsActions.getSpot(id))
-            .then(() => setIsSpotLoaded(true));
-        dispatch(reviewsActions.getSpotReviews(id))
-            .then(() => setIsReviewsLoaded(true));
-        if (!sessionUser) setIsVisible(false);
-        else if (sessionUser.id === spot.Owner.id) setIsVisible(false);
+        async function fetchData() {
+            await dispatch(spotsActions.getSpot(id))
+                .then(() => setIsSpotLoaded(true));
+            await dispatch(reviewsActions.getSpotReviews(id))
+                .then(() => setIsReviewsLoaded(true));
+        }
+        fetchData();
+        if (sessionUser) {
+            if (sessionUser.id !== spot.ownerId) {
+                let target = true;
+                spotReviews.forEach(reviewObj => {
+                    if (reviewObj.userId === sessionUser.id) target = false;
+                });
+                setIsVisible(target);
+            }
+        }
     }, [dispatch]);
 
     return (
@@ -41,8 +51,10 @@ function SpotDetails() {
                         {spot?.SpotImages?.map(imgObj => (
                             <li key={imgObj.id}>{imgObj.preview ? 'Preview ' : ''}Image URL: {imgObj.url}</li>
                         ))}
-                        <li>Average Rating: {spot?.avgStarRating}</li>
-                        <li>Review Count: {spot?.numReviews}</li>
+                        {spot?.avgStarRating > 0 && <li>Average Rating: {spot?.avgStarRating}</li>}
+                        {spot?.numReviews === 0 && <li>New (No Reviews Yet)</li>}
+                        {spot?.numReviews === 1 && <li>1 Review</li>}
+                        {spot?.numReviews > 1 && <li>{spot?.numReviews} Reviews</li>}
                         <li>Owner: {spot?.Owner?.firstName} {spot?.Owner?.lastName}</li>
                     </ul>
                 </div>
@@ -52,7 +64,7 @@ function SpotDetails() {
                     <ul>
                         {isVisible &&
                             <OpenModalButton
-                                modalComponent={<CreateReviewModal id={spot.id}/>}
+                                modalComponent={<CreateReviewModal id={spot.id} />}
                                 buttonText="Post Your Review"
                             />
                         }
@@ -61,7 +73,7 @@ function SpotDetails() {
                             const reviewYear = new Date(reviewObj.createdAt).getFullYear();
                             return (
                                 <li key={reviewObj.id}>{reviewObj.stars} stars: "{reviewObj.review}"
-                                    - {reviewObj.User.firstName}, {reviewMonth} {reviewYear} </li>
+                                    - {reviewObj.User?.firstName}, {reviewMonth} {reviewYear} </li>
                             );
                         })}
                     </ul>

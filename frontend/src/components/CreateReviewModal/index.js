@@ -20,7 +20,6 @@ function CreateReviewModal({ id }) {
             review,
             stars
         };
-        console.log(stars);
         dispatch(reviewsActions.createReview(payload))
             .then(closeModal)
             .catch(async (res) => {
@@ -29,6 +28,7 @@ function CreateReviewModal({ id }) {
                     setErrors({ message: data.message });
                 }
             });
+        dispatch(reviewsActions.getSpotReviews(id));
     };
 
     return (

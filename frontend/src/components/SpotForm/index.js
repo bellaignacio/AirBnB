@@ -101,7 +101,7 @@ function SpotForm({ spot, formType }) {
 
     return (
         <>
-            <h1>{formType === 'Create Spot' ? "Create a new Spot" : "Update your Spot"}</h1>
+            <h1>{formType === 'Create Spot' ? "Create a New Spot" : "Update your Spot"}</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <h2>Where's your place located?</h2>
@@ -122,7 +122,7 @@ function SpotForm({ spot, formType }) {
                             type="text"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
-                            placeholder="Address"
+                            placeholder="Street Address"
                         />
                     </label>
                     {errors.address && <p className="error-msg">{errors.address}</p>}
@@ -149,7 +149,7 @@ function SpotForm({ spot, formType }) {
                     <label>
                         Latitude
                         <input
-                            type="text"
+                            type="number"
                             value={lat}
                             onChange={(e) => setLat(e.target.value)}
                             placeholder="Latitude"
@@ -159,7 +159,7 @@ function SpotForm({ spot, formType }) {
                     <label>
                         Longitude
                         <input
-                            type="text"
+                            type="number"
                             value={lng}
                             onChange={(e) => setLng(e.target.value)}
                             placeholder="Longitude"
@@ -194,7 +194,7 @@ function SpotForm({ spot, formType }) {
                     <h2>Set a base price for your spot</h2>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
                     <span>$<input
-                        type="text"
+                        type="number"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         placeholder="Price per night (USD)"
@@ -240,7 +240,7 @@ function SpotForm({ spot, formType }) {
                     />
                     {errors.imageFour && <p className="error-msg">{errors.imageFour}</p>}
                 </div>
-                <button type="submit">{formType === 'Create Spot' ? "Create Spot" : "Update Spot"}</button>
+                <button className="primary" type="submit">{formType === 'Create Spot' ? "Create Spot" : "Update Spot"}</button>
             </form>
         </>
     );

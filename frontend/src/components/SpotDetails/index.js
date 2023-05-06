@@ -58,16 +58,16 @@ function SpotDetails() {
                     </div>
                     <div className='spot-details-info'>
                         <div>
-                            <h2>{spot?.Owner?.firstName} {spot?.Owner?.lastName}</h2>
+                            <h2>Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}</h2>
                             <p>{spot?.description}</p>
                         </div>
                         <div className='spot-details-reserve'>
                             <div className='spot-details-price'>${spot?.price} night</div>
                             <div className='spot-details-rating'>
-                                &#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}   &#8231;   {spot?.numReviews >= 1 && <span>{spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</span>}
+                                &#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}{spot?.numReviews >= 1 && <span>   &#8231;   {spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</span>}
                             </div>
                             {/* {spot?.numReviews >= 1 && <span>{spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</span>} */}
-                            <button className="primary reserve-btn" onClick={() => window.alert('Feature Coming Soon...')}>Reserve</button>
+                            <button className="primary reserve-btn" onClick={() => window.alert('Feature Coming Soon')}>Reserve</button>
                         </div>
                     </div>
                     {/* <ul>
@@ -82,7 +82,7 @@ function SpotDetails() {
                 <div className='review-details'>
                     <div className='review-details-header'>
                         <div>
-                            &#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}   &#8231;   {spot?.numReviews >= 1 && <span>{spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</span>}
+                            &#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}{spot?.numReviews >= 1 && <span>   &#8231;   {spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</span>}
                         </div>
                         {isVisible &&
                             <OpenModalButton
@@ -90,9 +90,10 @@ function SpotDetails() {
                                 buttonText="Post Your Review"
                             />
                         }
-                        {(spot?.numReviews < 1 && isVisible) && <div>Be the first to post a review!</div>}
+                        {/* {(spot?.numReviews < 1 && isVisible) && <div>Be the first to post a review!</div>} */}
                     </div>
                     <div className='review-details-list'>
+                        {(spot?.numReviews < 1 && isVisible) && <div>Be the first to post a review!</div>}
                         {spotReviews?.map(reviewObj => {
                             const reviewMonth = MONTHS[new Date(reviewObj.createdAt).getMonth()];
                             const reviewYear = new Date(reviewObj.createdAt).getFullYear();

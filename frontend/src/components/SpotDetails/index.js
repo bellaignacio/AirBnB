@@ -40,7 +40,7 @@ function SpotDetails() {
     }, [dispatch]);
 
     return (
-        <>
+        <div className='spot-details-container'>
             {isSpotLoaded &&
                 <div className='spot-details'>
                     <div className='spot-details-header'>
@@ -92,25 +92,29 @@ function SpotDetails() {
                         }
                         {(spot?.numReviews < 1 && isVisible) && <div>Be the first to post a review!</div>}
                     </div>
-                    <div>
+                    <div className='review-details-list'>
                         {spotReviews?.map(reviewObj => {
                             const reviewMonth = MONTHS[new Date(reviewObj.createdAt).getMonth()];
                             const reviewYear = new Date(reviewObj.createdAt).getFullYear();
                             return (
                                 <>
-                                    <div>{reviewObj.stars} stars: "{reviewObj.review}"
-                                        - {reviewObj.User?.firstName}, {reviewMonth} {reviewYear} </div>
-                                    {reviewObj.userId === sessionUser?.id && <OpenModalButton
-                                        modalComponent={<DeleteReviewModal id={reviewObj.id} />}
-                                        buttonText="Delete"
-                                    />}
+                                    <div className='review-info'>
+                                        <p className='review-name'>{reviewObj.User?.firstName}</p>
+                                        <p className='review-date'>{reviewMonth} {reviewYear}</p>
+                                        <p className='review-text'>{reviewObj.review}</p>
+                                        {reviewObj.userId === sessionUser?.id && <OpenModalButton
+                                            modalComponent={<DeleteReviewModal id={reviewObj.id} />}
+                                            buttonText="Delete"
+                                        />}
+                                    </div>
+
                                 </>
                             );
                         })}
                     </div>
                 </div>
             }
-        </>
+        </div>
     );
 }
 

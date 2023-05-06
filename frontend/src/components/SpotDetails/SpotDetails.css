@@ -2,6 +2,10 @@
     display: none;
 } */
 
+.spot-details-container {
+    padding: 20px;
+}
+
 .spot-details {
     display: flex;
     flex-direction: column;
@@ -53,6 +57,8 @@
 .spot-details-info {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #cccccc;
 }
 
 .spot-details-reserve {
@@ -79,4 +85,35 @@
 
 .reserve-btn {
     grid-area: reserve;
+}
+
+.review-details {
+    padding-top: 20px
+}
+
+.review-details-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px;
+}
+
+.review-info {
+    margin: 25px 0px;
+}
+
+.review-info > * {
+    margin: 5px 0px;
+}
+
+.review-details-list {
+    padding-top: 20px;
+}
+
+.review-name {
+    font-size: 16pt;
+}
+
+.review-date {
+    color: #999999;
 }

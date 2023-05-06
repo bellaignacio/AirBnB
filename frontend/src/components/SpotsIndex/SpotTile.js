@@ -16,7 +16,7 @@ function SpotTile({ spot, userOnly }) {
                 <div className='spot-price'>${spot.price} night</div>
             </div>
             <div className='spot-btn-container' onClick={(e) => e.stopPropagation()}>
-                {userOnly && <button className='update-spot-btn' onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>}
+                {userOnly && <button className='update-spot-btn accent' onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>}
                 {userOnly &&
                     <OpenModalButton
                         modalComponent={<DeleteSpotModal id={spot.id} />}

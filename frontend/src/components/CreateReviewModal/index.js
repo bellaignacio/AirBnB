@@ -47,6 +47,7 @@ function CreateReviewModal({ id }) {
                             <button
                                 type="button"
                                 key={index}
+                                id={`star-${index}`}
                                 className={index <= (hover || stars) ? "star-button on" : "star-button off"}
                                 onClick={() => setStars(index)}
                                 onMouseEnter={() => setHover(index)}

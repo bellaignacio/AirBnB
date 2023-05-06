@@ -49,21 +49,25 @@ function SpotDetails() {
                     </div>
                     <div className='spot-details-imgs'>
                         {
-                        spot?.SpotImages?.map((imgObj, index) => {
-                            return (
-                                <img className={imgObj.preview ? 'spot-preview-img' : `spot-alt-img alt-img-${index}`} src={imgObj.url} alt={imgObj.url.split('/').pop()} />
-                            );
-                        })
+                            spot?.SpotImages?.map((imgObj, index) => {
+                                return (
+                                    <img className={imgObj.preview ? 'spot-preview-img' : `spot-alt-img alt-img-${index}`} src={imgObj.url} alt={imgObj.url.split('/').pop()} />
+                                );
+                            })
                         }
                     </div>
                     <div className='spot-details-info'>
-                        <h2>{spot?.Owner?.firstName} {spot?.Owner?.lastName}</h2>
-                        <p>{spot?.description}</p>
+                        <div>
+                            <h2>{spot?.Owner?.firstName} {spot?.Owner?.lastName}</h2>
+                            <p>{spot?.description}</p>
+                        </div>
                         <div className='spot-details-reserve'>
-                            <div>${spot?.price} night</div>
-                            <div>&#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}</div>
-                            {spot?.numReviews >= 1 && <div>{spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</div>}
-                            <button onClick={() => window.alert('Feature Coming Soon...')}>Reserve</button>
+                            <div className='spot-details-price'>${spot?.price} night</div>
+                            <div className='spot-details-rating'>
+                                &#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}   &#8231;   {spot?.numReviews >= 1 && <span>{spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</span>}
+                            </div>
+                            {/* {spot?.numReviews >= 1 && <span>{spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</span>} */}
+                            <button className="primary reserve-btn" onClick={() => window.alert('Feature Coming Soon...')}>Reserve</button>
                         </div>
                     </div>
                     {/* <ul>
@@ -77,8 +81,9 @@ function SpotDetails() {
             {isReviewsLoaded &&
                 <div className='review-details'>
                     <div className='review-details-header'>
-                        <div>&#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}</div>
-                        {spot?.numReviews >= 1 && <div>{spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</div>}
+                        <div>
+                            &#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}   &#8231;   {spot?.numReviews >= 1 && <span>{spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</span>}
+                        </div>
                         {isVisible &&
                             <OpenModalButton
                                 modalComponent={<CreateReviewModal id={spot.id} />}

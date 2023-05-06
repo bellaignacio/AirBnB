@@ -49,3 +49,34 @@
 .alt-img-4 {
     grid-area: alt-4;
 }
+
+.spot-details-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.spot-details-reserve {
+    display: grid;
+    border: 1px solid #000000;
+    border-radius: 30px;
+    padding: 15px;
+    width: 300px;
+    grid-template-areas:
+    'price rating'
+    'reserve reserve';
+}
+
+.spot-details-price {
+    grid-area: price;
+    align-self: center;
+}
+
+.spot-details-rating {
+    grid-area: rating;
+    align-self: center;
+    justify-self: right;
+}
+
+.reserve-btn {
+    grid-area: reserve;
+}

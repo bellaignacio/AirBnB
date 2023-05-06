@@ -32,15 +32,18 @@
 
 .spot-location {
     grid-area: loc;
+    align-self: center;
 }
 
 .spot-rating {
     grid-area: rating;
-    text-align: right;
+    align-self: center;
+    justify-self: right;
 }
 
 .spot-price {
     grid-area: price;
+    align-self: center;
 }
 
 /* .update-spot-btn {

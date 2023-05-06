@@ -142,7 +142,7 @@ function SpotForm({ spot, formType }) {
                             type="text"
                             value={state}
                             onChange={(e) => setState(e.target.value)}
-                            placeholder="STATE"
+                            placeholder="State"
                         />
                     </label>
                     {errors.state && <p className="error-msg">{errors.state}</p>}

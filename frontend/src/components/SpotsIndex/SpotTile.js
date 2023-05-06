@@ -7,25 +7,24 @@ function SpotTile({ spot, userOnly }) {
     const history = useHistory();
 
     return (
-        <div>
-            <h2>SpotTile: {spot.name}</h2>
-            <ul>
-                <li>Price: {spot.price}</li>
-                <li>Location: {spot.city}, {spot.state}</li>
-                <li>Average Rating: {spot.avgRating}</li>
-                <li>Preview Image: {spot.previewImage[0]}</li>
-            </ul>
-            <NavLink to={`/spots/${spot.id}`}>
-                <img src={spot.previewImage[0]} alt={spot.previewImage[0].split('/').pop()}/>
-            </NavLink>
-            {userOnly && <button onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>}
-            {userOnly &&
-                <OpenModalButton
-                    modalComponent={<DeleteSpotModal id={spot.id}/>}
-                    buttonText="Delete"
-                />
-            }
-        </div>
+        <NavLink to={`/spots/${spot.id}`}>
+            <div title={spot.name} className='spot-tile'>
+                <img className='preview-img' src={spot.previewImage[0]} alt={spot.previewImage[0].split('/').pop()} />
+                <div className='preview-details'>
+                    <div className='spot-location'>{spot.city}, {spot.state}</div>
+                    <div className='spot-rating'>&#9733;   {spot.avgRating === 0 ? "New" : `${spot.avgRating.toFixed(1)}`}</div>
+                    <div className='spot-price'>${spot.price} night</div>
+                    {userOnly && <button className='update-spot-btn' onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>}
+                    {userOnly &&
+                        <OpenModalButton
+                            modalComponent={<DeleteSpotModal id={spot.id} />}
+                            buttonText="Delete"
+                            className='delete-spot-btn'
+                        />
+                    }
+                </div>
+            </div>
+        </NavLink>
     );
 }
 

@@ -1,0 +1,48 @@
+.spots-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px 20px;
+    padding: 20px;
+}
+
+.spot-tile {
+    flex-basis: 25%;
+    border: 1px dashed #000000;
+    padding: 10px;
+}
+
+.preview-img {
+    height: 300px;
+    width: 300px;
+    object-fit: cover;
+}
+
+.preview-details {
+    display: grid;
+    grid-template-areas:
+    'loc loc rating'
+    'price price price'
+    'update delete .';
+}
+
+.spot-location {
+    grid-area: loc;
+}
+
+.spot-rating {
+    grid-area: rating;
+    text-align: right;
+}
+
+.spot-price {
+    grid-area: price;
+}
+
+.update-spot-btn {
+    grid-area: update;
+}
+
+.delete-spot-btn {
+    grid-area: delete;
+}

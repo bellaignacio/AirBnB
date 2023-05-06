@@ -15,7 +15,6 @@ function LandingPage() {
 
     return (
         <>
-            <h1>Landing Page</h1>
             {isLoaded && <SpotsIndex spots={spots} userOnly={false}/>}
         </>
     );

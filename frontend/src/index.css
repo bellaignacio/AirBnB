@@ -24,6 +24,7 @@ button {
     font-size: 14pt;
     font-style: normal;
     width: auto;
+    margin: 2px;
 }
 
 button:hover {
@@ -50,14 +51,13 @@ button.primary {
 
 input {
     background-color: #e8f0fe;
-    margin: 0px 2px;
+    margin: 2px 2px;
 }
 
 form {
     display: flex;
     justify-content: left;
     flex-direction: column;
-    gap: 5px;
     padding: 20px;
 }
 
@@ -65,4 +65,9 @@ form {
     color: red;
     padding: 0px;
     margin: 5px
+}
+
+a {
+    text-decoration: none;
+    color: black;
 }

@@ -22,8 +22,12 @@
     display: grid;
     grid-template-areas:
     'loc loc rating'
-    'price price price'
-    'update delete .';
+    'price price price';
+}
+
+.preview-img:hover,
+.preview-details:hover {
+    cursor: pointer;
 }
 
 .spot-location {
@@ -39,10 +43,10 @@
     grid-area: price;
 }
 
-.update-spot-btn {
+/* .update-spot-btn {
     grid-area: update;
 }
 
 .delete-spot-btn {
     grid-area: delete;
-}
+} */

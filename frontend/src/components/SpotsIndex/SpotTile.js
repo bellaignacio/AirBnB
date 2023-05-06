@@ -7,24 +7,26 @@ function SpotTile({ spot, userOnly }) {
     const history = useHistory();
 
     return (
-        <NavLink to={`/spots/${spot.id}`}>
-            <div title={spot.name} className='spot-tile'>
-                <img className='preview-img' src={spot.previewImage[0]} alt={spot.previewImage[0].split('/').pop()} />
-                <div className='preview-details'>
-                    <div className='spot-location'>{spot.city}, {spot.state}</div>
-                    <div className='spot-rating'>&#9733;   {spot.avgRating === 0 ? "New" : `${spot.avgRating.toFixed(1)}`}</div>
-                    <div className='spot-price'>${spot.price} night</div>
-                    {userOnly && <button className='update-spot-btn' onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>}
-                    {userOnly &&
-                        <OpenModalButton
-                            modalComponent={<DeleteSpotModal id={spot.id} />}
-                            buttonText="Delete"
-                            className='delete-spot-btn'
-                        />
-                    }
-                </div>
+        // <NavLink to={`/spots/${spot.id}`}></NavLink>
+        <div title={spot.name} className='spot-tile' onClick={() => history.push(`/spots/${spot.id}`)}>
+            <img className='preview-img' src={spot.previewImage[0]} alt={spot.previewImage[0].split('/').pop()} />
+            <div className='preview-details'>
+                <div className='spot-location'>{spot.city}, {spot.state}</div>
+                <div className='spot-rating'>&#9733;   {spot.avgRating === 0 ? "New" : `${spot.avgRating.toFixed(1)}`}</div>
+                <div className='spot-price'>${spot.price} night</div>
             </div>
-        </NavLink>
+            <div className='spot-btn-container' onClick={(e) => e.stopPropagation()}>
+                {userOnly && <button className='update-spot-btn' onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>}
+                {userOnly &&
+                    <OpenModalButton
+                        modalComponent={<DeleteSpotModal id={spot.id} />}
+                        buttonText="Delete"
+                        className='delete-spot-btn'
+                    />
+                }
+            </div>
+        </div>
+
     );
 }
 

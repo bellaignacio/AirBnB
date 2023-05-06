@@ -57,7 +57,7 @@ function LoginFormModal() {
                     //     .then(() => history.push('/'));
                     setCredential('Demo-lition');
                     setPassword('passwordDemo');
-                }}>Demo User</button>
+                }}>Log In as Demo User</button>
             </form>
         </>
     );

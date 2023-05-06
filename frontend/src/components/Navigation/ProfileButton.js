@@ -45,13 +45,12 @@ function ProfileButton({ user }) {
     return (
         <>
             <button className="open-dropdown" onClick={openMenu}>
-                <i className="fas fa-user-circle" />
+                <i className="fas fa-bars" />   <i className="fas fa-user-circle" />
             </button>
             <div className={ulClassName} ref={ulRef}>
                 {user ? (
                     <>
-                        <p>Hello, {user.username}</p>
-                        <p>{user.firstName} {user.lastName}</p>
+                        <p>Hello, {user.firstName}</p>
                         <p>{user.email}</p>
                         <NavLink to='/spots/current' onClick={closeMenu}>Manage Spots</NavLink>
                         <button className="logout-btn accent" onClick={logout}>Log Out</button>

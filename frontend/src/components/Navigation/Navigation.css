@@ -9,7 +9,7 @@ div.nav-header {
 
 div.menu-header {
     display: flex;
-    gap: 5px;
+    gap: 20px;
 }
 
 .logo-title {
@@ -24,12 +24,17 @@ div.menu-header {
     font-size: 40pt;
 }
 
+a,
 .active {
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .open-dropdown {
     position: relative;
+    border-radius: 30px;
 }
 
 div.profile-dropdown {

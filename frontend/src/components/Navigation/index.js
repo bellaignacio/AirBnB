@@ -12,14 +12,10 @@ function Navigation({ isLoaded }) {
             <NavLink className="logo-title" exact to="/"><i className="fas fa-couch" /><h1>SpotSurfing</h1></NavLink>
             <div className="menu-header">
                 {sessionUser && (
-                    <div>
-                        <NavLink to="/spots/new">Create a New Spot</NavLink>
-                    </div>
+                    <NavLink to="/spots/new">Create a New Spot</NavLink>
                 )}
                 {isLoaded && (
-                    <div>
-                        <ProfileButton user={sessionUser} />
-                    </div>
+                    <ProfileButton user={sessionUser} />
                 )}
             </div>
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
+import dummyImage from '../../download.png';
 import OpenModalButton from '../OpenModalButton';
 import CreateReviewModal from '../CreateReviewModal';
 import DeleteReviewModal from '../DeleteReviewModal';
@@ -51,7 +52,10 @@ function SpotDetails() {
                         {
                             spot?.SpotImages?.map((imgObj, index) => {
                                 return (
-                                    <img className={imgObj.preview ? 'spot-preview-img' : `spot-alt-img alt-img-${index}`} src={imgObj.url} alt={imgObj.url.split('/').pop()} />
+                                    <img className={imgObj.preview ? 'spot-preview-img' : `spot-alt-img alt-img-${index}`} src={imgObj.url} onError={(e) => {
+                                        e.target.src = dummyImage;
+                                        e.onerror = null;
+                                    }} alt={imgObj.url.split('/').pop()} />
                                 );
                             })
                         }

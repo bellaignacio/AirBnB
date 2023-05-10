@@ -57,6 +57,7 @@ function CreateReviewModal({ id }) {
                             </button>
                         );
                     })}
+                    <span className='star-label'>     Stars</span>
                 </div>
                 <button type="submit"
                     disabled={review.length < 10 || stars < 1}

@@ -51,3 +51,9 @@
     color: #ffffff;
     border-color: #000000;
 } */
+
+#modal-content button.accent {
+    background-color: #999999;
+    color: #ffffff;
+    border-color: #000000;
+}

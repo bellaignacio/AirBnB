@@ -5,8 +5,11 @@
     align-items: flex-start;
     gap: 10px;
     height: 25px;
-    padding-right: 15px;
-    padding-bottom: 5px;
+    padding: 5px 0px 10px 0px;
+}
+
+.star-label {
+    padding: 5px 0px 0px 10px;
 }
 
 .star-button#star-1,

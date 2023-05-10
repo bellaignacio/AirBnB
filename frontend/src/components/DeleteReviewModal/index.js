@@ -18,7 +18,7 @@ function DeleteReviewModal({ id }) {
             <p>Are you sure you want to delete this review?</p>
             <form onSubmit={handleSubmit}>
                 <button type="submit">Yes (Delete Review)</button>
-                <button onClick={closeModal}>No (Keep Review)</button>
+                <button className='accent' onClick={closeModal}>No (Keep Review)</button>
             </form>
         </>
     );

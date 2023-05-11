@@ -7,7 +7,7 @@
 }
 
 .spot-tile {
-    flex-basis: 25%;
+    flex-basis: 20%;
     border: 1px dashed #000000;
     padding: 10px;
 }

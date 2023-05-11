@@ -15,7 +15,7 @@ function DeleteSpotModal({ id }) {
     return (
         <>
             <h2>Confirm Delete</h2>
-            <p>Are you sure you want to remove this spot from the listings?</p>
+            <p>Are you sure you want to remove this spot?</p>
             <form onSubmit={handleSubmit}>
                 <button type="submit">Yes (Delete Spot)</button>
                 <button className='accent' onClick={closeModal}>No (Keep Spot)</button>

@@ -4,9 +4,11 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import { NavLink, useHistory } from "react-router-dom";
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
 
@@ -35,24 +37,23 @@ function ProfileButton({ user }) {
         e.preventDefault();
         dispatch(sessionActions.logout());
         closeMenu();
+        history.push('/');
     };
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
         <>
-            <button onClick={openMenu}>
-                <i className="fas fa-user-circle" />
+            <button className="open-dropdown" onClick={openMenu}>
+                <i className="fas fa-bars" />   <i className="fas fa-user-circle" />
             </button>
-            <ul className={ulClassName} ref={ulRef}>
+            <div className={ulClassName} ref={ulRef}>
                 {user ? (
                     <>
-                        <li>{user.username}</li>
-                        <li>{user.firstName} {user.lastName}</li>
-                        <li>{user.email}</li>
-                        <li>
-                            <button onClick={logout}>Log Out</button>
-                        </li>
+                        <p>Hello, {user.firstName}</p>
+                        <p>{user.email}</p>
+                        <NavLink to='/spots/current' onClick={closeMenu}>Manage Spots</NavLink>
+                        <button className="logout-btn accent" onClick={logout}>Log Out</button>
                     </>
                 ) : (
                     <>
@@ -68,7 +69,7 @@ function ProfileButton({ user }) {
                         />
                     </>
                 )}
-            </ul>
+            </div>
         </>
     );
 }

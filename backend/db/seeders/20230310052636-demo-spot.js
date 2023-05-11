@@ -19,7 +19,7 @@ module.exports = {
         lat: 53.4892340,
         lng: -103.5892058,
         name: "Demo's Crib",
-        description: 'Man cave, bachelor bad of the ages',
+        description: 'Man cave, bachelor pad of the ages',
         price: 234
       },
       {
@@ -43,7 +43,7 @@ module.exports = {
         lat: 49.1839583,
         lng: 133.2839500,
         name: "FakeUser2's Bungalow",
-        description: 'The hippest, earthiest spot on the street',
+        description: 'The hippest, most chic spot on the street',
         price: 122
       }
     ], {});

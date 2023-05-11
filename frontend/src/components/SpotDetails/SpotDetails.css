@@ -1,0 +1,119 @@
+/* .hidden {
+    display: none;
+} */
+
+.spot-details-container {
+    padding: 20px;
+}
+
+.spot-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.spot-details-imgs {
+    display: grid;
+    grid-template-columns: 360px 180px 180px;
+    grid-template-rows: 180px 180px;
+    grid-template-areas:
+    'preview alt-1 alt-3'
+    'preview alt-2 alt-4';
+    /* row-gap: 10px; */
+}
+
+.spot-preview-img {
+    grid-area: preview;
+    height: 340px;
+    width: 340px;
+    object-fit: cover;
+    align-self: center;
+    padding: 10px;
+}
+
+.spot-alt-img {
+    height: 160px;
+    width: 160px;
+    object-fit: cover;
+    align-self: center;
+    padding: 10px
+}
+
+.alt-img-1 {
+    grid-area: alt-1;
+}
+
+.alt-img-2 {
+    grid-area: alt-2;
+}
+
+.alt-img-3 {
+    grid-area: alt-3;
+}
+
+.alt-img-4 {
+    grid-area: alt-4;
+}
+
+.spot-details-info {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #cccccc;
+}
+
+.spot-details-reserve {
+    display: grid;
+    border: 1px solid #000000;
+    border-radius: 30px;
+    padding: 15px;
+    width: 300px;
+    grid-template-areas:
+    'price rating'
+    'reserve reserve';
+}
+
+.spot-details-price {
+    grid-area: price;
+    align-self: center;
+}
+
+.spot-details-rating {
+    grid-area: rating;
+    align-self: center;
+    justify-self: right;
+}
+
+.reserve-btn {
+    grid-area: reserve;
+}
+
+.review-details {
+    padding-top: 20px
+}
+
+.review-details-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px;
+}
+
+.review-info {
+    margin: 25px 0px;
+}
+
+.review-info > * {
+    margin: 5px 0px;
+}
+
+.review-details-list {
+    padding-top: 20px;
+}
+
+.review-name {
+    font-size: 16pt;
+}
+
+.review-date {
+    color: #999999;
+}

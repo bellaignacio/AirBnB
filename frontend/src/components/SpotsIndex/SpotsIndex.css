@@ -1,0 +1,55 @@
+.spots-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px 20px;
+    padding: 20px;
+}
+
+.spot-tile {
+    flex-basis: 25%;
+    border: 1px dashed #000000;
+    padding: 10px;
+}
+
+.preview-img {
+    height: 300px;
+    width: 300px;
+    object-fit: cover;
+}
+
+.preview-details {
+    display: grid;
+    grid-template-areas:
+    'loc loc rating'
+    'price price price';
+}
+
+.preview-img:hover,
+.preview-details:hover {
+    cursor: pointer;
+}
+
+.spot-location {
+    grid-area: loc;
+    align-self: center;
+}
+
+.spot-rating {
+    grid-area: rating;
+    align-self: center;
+    justify-self: right;
+}
+
+.spot-price {
+    grid-area: price;
+    align-self: center;
+}
+
+/* .update-spot-btn {
+    grid-area: update;
+}
+
+.delete-spot-btn {
+    grid-area: delete;
+} */

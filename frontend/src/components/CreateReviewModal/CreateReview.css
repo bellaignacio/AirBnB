@@ -1,0 +1,42 @@
+.star-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    height: 25px;
+    padding: 5px 0px 10px 0px;
+}
+
+.star-label {
+    padding: 5px 0px 0px 10px;
+}
+
+.star-button#star-1,
+.star-button#star-2,
+.star-button#star-3,
+.star-button#star-4,
+.star-button#star-5 {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 10px;
+    height: 10px;
+}
+
+.star-button#star-1.on,
+.star-button#star-2.on,
+.star-button#star-3.on,
+.star-button#star-4.on,
+.star-button#star-5.on {
+    color: #000;
+}
+
+.star-button#star-1.off,
+.star-button#star-2.off,
+.star-button#star-3.off,
+.star-button#star-4.off,
+.star-button#star-5.off {
+    color: #ccc;
+}

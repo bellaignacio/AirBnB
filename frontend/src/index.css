@@ -1,1 +1,73 @@
 /* TODO Add site wide styles */
+
+* {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 14pt;
+    font-style: normal;
+}
+
+.hidden {
+    display: none;
+}
+
+h1 {
+    font-size: 24pt;
+    font-style: bold;
+}
+
+h2 {
+    font-size: 18pt;
+    font-style: bold;
+}
+
+button {
+    font-size: 14pt;
+    font-style: normal;
+    width: auto;
+    margin: 2px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button.normal {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #cccccc;
+}
+
+button.accent {
+    background-color: #999999;
+    color: #ffffff;
+    border-color: #000000;
+}
+
+button.primary {
+    background-color: #ff5a5f;
+    color: #ffffff;
+    border-color: #000000;
+}
+
+input {
+    background-color: #e8f0fe;
+    margin: 2px 2px;
+}
+
+form {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.error-msg {
+    color: red;
+    padding: 0px;
+    margin: 5px
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}

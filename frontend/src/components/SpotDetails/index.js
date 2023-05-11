@@ -108,7 +108,7 @@ function SpotDetails() {
                                         <p className='review-date'>{reviewMonth} {reviewYear}</p>
                                         <p className='review-text'>{reviewObj.review}</p>
                                         {reviewObj.userId === sessionUser?.id && <OpenModalButton
-                                            modalComponent={<DeleteReviewModal id={reviewObj.id} />}
+                                            modalComponent={<DeleteReviewModal id={reviewObj.id} spotId={reviewObj.spotId}/>}
                                             buttonText="Delete"
                                         />}
                                     </div>

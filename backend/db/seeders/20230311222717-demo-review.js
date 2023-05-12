@@ -12,25 +12,25 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         userId: 1,
-        spotId: 2,
+        spotId: 3,
         review: 'This mansion was the worst ever! So expensive..',
         stars: 1
       },
       {
         userId: 3,
-        spotId: 2,
+        spotId: 3,
         review: 'Whatever experience, could be better',
         stars: 2
       },
       {
         userId: 2,
-        spotId: 3,
+        spotId: 5,
         review: 'Biggest (bungalow) bang for your buck, so worth it',
         stars: 5
       },
       {
         userId: 1,
-        spotId: 3,
+        spotId: 5,
         review: 'Almost better than my own place!',
         stars: 4
       },

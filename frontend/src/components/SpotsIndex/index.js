@@ -5,7 +5,7 @@ function SpotsIndex({ spots, userOnly }) {
     return (
         <div className='spots-container'>
             {spots?.map(spotObj => (
-                <SpotTile key={spotObj.id} spot={spotObj} userOnly={userOnly}/>
+                <SpotTile key={spotObj.id} spot={spotObj} userOnly={userOnly} />
             ))}
         </div>
     );

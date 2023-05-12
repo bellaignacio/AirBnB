@@ -50,8 +50,9 @@ button.primary {
 }
 
 input {
+    box-sizing: border-box;
     background-color: #e8f0fe;
-    margin: 2px 2px;
+    margin: 2px 0px;
 }
 
 form {

@@ -29,16 +29,21 @@ function SpotDetails() {
                 .then(() => setIsReviewsLoaded(true));
         }
         fetchData();
-        if (sessionUser) {
-            if (sessionUser.id !== spot.ownerId) {
-                let target = true;
-                spotReviews.forEach(reviewObj => {
-                    if (reviewObj.userId === sessionUser.id) target = false;
-                });
-                setIsVisible(target);
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (isSpotLoaded && isReviewsLoaded) {
+            if (sessionUser) {
+                if (sessionUser.id !== spot.ownerId) {
+                    let target = true;
+                    spotReviews.forEach(reviewObj => {
+                        if (reviewObj.userId === sessionUser.id) target = false;
+                    });
+                    if (target === true) setIsVisible(true);
+                }
             }
         }
-    }, [dispatch]);
+    }, [isSpotLoaded, isReviewsLoaded]);
 
     return (
         <div className='spot-details-container'>
@@ -74,27 +79,20 @@ function SpotDetails() {
                             <button className="primary reserve-btn" onClick={() => window.alert('Feature Coming Soon')}>Reserve</button>
                         </div>
                     </div>
-                    {/* <ul>
-                        {spot?.avgStarRating > 0 && <li>Average Rating: {spot?.avgStarRating}</li>}
-                        {spot?.numReviews === 0 && <li>New (No Reviews Yet)</li>}
-                        {spot?.numReviews === 1 && <li>1 Review</li>}
-                        {spot?.numReviews > 1 && <li>{spot?.numReviews} Reviews</li>}
-                    </ul> */}
                 </div>
             }
             {isReviewsLoaded &&
                 <div className='review-details'>
                     <div className='review-details-header'>
-                        <div>
-                            &#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}{spot?.numReviews >= 1 && <span>   &#8231;   {spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</span>}
-                        </div>
+                        <h2>
+                            &#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}{spot?.numReviews >= 1 && <>   &#8231;   {spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</>}
+                        </h2>
                         {isVisible &&
                             <OpenModalButton
-                                modalComponent={<CreateReviewModal id={spot.id} />}
+                                modalComponent={<CreateReviewModal id={spot.id} setIsVisible={setIsVisible} />}
                                 buttonText="Post Your Review"
                             />
                         }
-                        {/* {(spot?.numReviews < 1 && isVisible) && <div>Be the first to post a review!</div>} */}
                     </div>
                     <div className='review-details-list'>
                         {(spot?.numReviews < 1 && isVisible) && <div>Be the first to post a review!</div>}
@@ -108,7 +106,7 @@ function SpotDetails() {
                                         <p className='review-date'>{reviewMonth} {reviewYear}</p>
                                         <p className='review-text'>{reviewObj.review}</p>
                                         {reviewObj.userId === sessionUser?.id && <OpenModalButton
-                                            modalComponent={<DeleteReviewModal id={reviewObj.id} />}
+                                            modalComponent={<DeleteReviewModal id={reviewObj.id} spotId={reviewObj.spotId} setIsVisible={setIsVisible} />}
                                             buttonText="Delete"
                                         />}
                                     </div>

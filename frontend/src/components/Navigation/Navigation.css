@@ -35,6 +35,7 @@ a,
 .open-dropdown {
     position: relative;
     border-radius: 30px;
+    padding: 5px 10px;
 }
 
 div.profile-dropdown {
@@ -46,8 +47,8 @@ div.profile-dropdown {
     padding: 5px;
     box-shadow: 2px 2px 2px #cccccc;
     position: absolute;
-    top: 60px;
-    right: 28px;
+    top: 65px;
+    right: 30px;
 }
 
 div.profile-dropdown.hidden {
@@ -60,5 +61,5 @@ div.profile-dropdown.hidden {
 
 div.profile-dropdown > * {
     margin: 0;
-    padding: 2px;
+    padding: 5px;
 }

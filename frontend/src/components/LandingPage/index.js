@@ -6,7 +6,7 @@ import SpotsIndex from "../SpotsIndex";
 function LandingPage() {
     const dispatch = useDispatch();
     const spots = useSelector(state => Object.values(state.spots.allSpots));
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         dispatch(spotsActions.getAllSpots())
@@ -15,7 +15,7 @@ function LandingPage() {
 
     return (
         <>
-            {isLoaded && <SpotsIndex spots={spots} userOnly={false}/>}
+            {isLoaded && <SpotsIndex spots={spots} userOnly={false} />}
         </>
     );
 }

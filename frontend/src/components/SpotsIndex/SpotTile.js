@@ -7,7 +7,6 @@ function SpotTile({ spot, userOnly }) {
     const history = useHistory();
 
     return (
-        // <NavLink to={`/spots/${spot.id}`}></NavLink>
         <div title={spot.name} className='spot-tile' onClick={() => history.push(`/spots/${spot.id}`)}>
             <img className='preview-img' src={spot.previewImage[0]} onError={(e) => {
                 e.target.src = dummyImage;
@@ -29,7 +28,6 @@ function SpotTile({ spot, userOnly }) {
                 }
             </div>
         </div>
-
     );
 }
 

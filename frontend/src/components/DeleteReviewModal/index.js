@@ -2,14 +2,15 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as reviewsActions from "../../store/reviews";
 
-function DeleteReviewModal({ id, spotId}) {
+function DeleteReviewModal({ id, spotId, setIsVisible }) {
     const { closeModal } = useModal();
     const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(reviewsActions.deleteReview(id, spotId))
-            .then(closeModal);
+            .then(closeModal)
+            .then(() => setIsVisible(true));
     };
 
     return (

@@ -52,7 +52,6 @@ function SpotForm({ spot, formType }) {
         if (imageTwo && !imageTwo.endsWith('.png') && !imageTwo.endsWith('.jpg') && !imageTwo.endsWith('.jpeg')) frontendErrors.imageTwo = 'Image URL must end in .png, .jpg, .jpeg';
         if (imageThree && !imageThree.endsWith('.png') && !imageThree.endsWith('.jpg') && !imageThree.endsWith('.jpeg')) frontendErrors.imageThree = 'Image URL must end in .png, .jpg, .jpeg';
         if (imageFour && !imageFour.endsWith('.png') && !imageFour.endsWith('.jpg') && !imageFour.endsWith('.jpeg')) frontendErrors.imageFour = 'Image URL must end in .png, .jpg, .jpeg';
-        // could add same backend validations here (might as well)
         if (!country) frontendErrors.country = 'Country is required';
         if (!address) frontendErrors.address = 'Address is required';
         if (!city) frontendErrors.city = 'City is required';
@@ -69,13 +68,6 @@ function SpotForm({ spot, formType }) {
                 .then(res => history.push(`/spots/${res}`))
                 .catch(async (res) => {
                     const data = await res.json();
-                    // if (description.length < 30) data.errors.description = 'Description needs a minimum of 30 characters';
-                    // if (!previewImage) data.errors.previewImage = 'Preview image is required';
-                    // if (previewImage && !previewImage.endsWith('.png') && !previewImage.endsWith('.jpg') && !previewImage.endsWith('.jpeg')) data.errors.previewImage = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageOne && !imageOne.endsWith('.png') && !imageOne.endsWith('.jpg') && !imageOne.endsWith('.jpeg')) data.errors.imageOne = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageTwo && !imageTwo.endsWith('.png') && !imageTwo.endsWith('.jpg') && !imageTwo.endsWith('.jpeg')) data.errors.imageTwo = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageThree && !imageThree.endsWith('.png') && !imageThree.endsWith('.jpg') && !imageThree.endsWith('.jpeg')) data.errors.imageThree = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageFour && !imageFour.endsWith('.png') && !imageFour.endsWith('.jpg') && !imageFour.endsWith('.jpeg')) data.errors.imageFour = 'Image URL must end in .png, .jpg, .jpeg';
                     if (data && data.errors) {
                         setErrors(data.errors);
                     }
@@ -85,13 +77,6 @@ function SpotForm({ spot, formType }) {
                 .then(res => history.push(`/spots/${res}`))
                 .catch(async (res) => {
                     const data = await res.json();
-                    // if (description.length < 30) data.errors.description = 'Description needs a minimum of 30 characters';
-                    // if (!previewImage) data.errors.previewImage = 'Preview image is required';
-                    // if (previewImage && !previewImage.endsWith('.png') && !previewImage.endsWith('.jpg') && !previewImage.endsWith('.jpeg')) data.errors.previewImage = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageOne && !imageOne.endsWith('.png') && !imageOne.endsWith('.jpg') && !imageOne.endsWith('.jpeg')) data.errors.imageOne = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageTwo && !imageTwo.endsWith('.png') && !imageTwo.endsWith('.jpg') && !imageTwo.endsWith('.jpeg')) data.errors.imageTwo = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageThree && !imageThree.endsWith('.png') && !imageThree.endsWith('.jpg') && !imageThree.endsWith('.jpeg')) data.errors.imageThree = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageFour && !imageFour.endsWith('.png') && !imageFour.endsWith('.jpg') && !imageFour.endsWith('.jpeg')) data.errors.imageFour = 'Image URL must end in .png, .jpg, .jpeg';
                     if (data && data.errors) {
                         setErrors(data.errors);
                     }
@@ -101,10 +86,10 @@ function SpotForm({ spot, formType }) {
 
     return (
         <>
-            <h1>{formType === 'Create Spot' ? "Create a New Spot" : "Update your Spot"}</h1>
+            <h1 className='form-header'>{formType === 'Create Spot' ? "Create a New Spot" : "Update your Spot"}</h1>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <h2>Where's your place located?</h2>
+                <div className='form-section'>
+                    <h2 className='form-subheading'>Where's your place located?</h2>
                     <p>Guests will only get your exact address once they booked a reservation.</p>
                     <label>
                         Country
@@ -167,8 +152,8 @@ function SpotForm({ spot, formType }) {
                     </label>
                     {errors.lng && <p className="error-msg">{errors.lng}</p>}
                 </div>
-                <div>
-                    <h2>Describe your place to guests</h2>
+                <div className='form-section'>
+                    <h2 className='form-subheading'>Describe your place to guests</h2>
                     <p>Mention the best features of your space, any special amenities like
                         fast wifi or parking, and what you love about the neighborhood.
                     </p>
@@ -179,8 +164,8 @@ function SpotForm({ spot, formType }) {
                     />
                     {errors.description && <p className="error-msg">{errors.description}</p>}
                 </div>
-                <div>
-                    <h2>Create a title for your spot</h2>
+                <div className='form-section'>
+                    <h2 className='form-subheading'>Create a title for your spot</h2>
                     <p>Catch guests' attention with a spot title that highlights what makes your space special.</p>
                     <input
                         type="text"
@@ -190,10 +175,10 @@ function SpotForm({ spot, formType }) {
                     />
                     {errors.name && <p className="error-msg">{errors.name}</p>}
                 </div>
-                <div>
-                    <h2>Set a base price for your spot</h2>
+                <div className='form-section'>
+                    <h2 className='form-subheading'>Set a base price for your spot</h2>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-                    <span>$<input
+                    <span className='price-input'>$<input
                         type="number"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
@@ -201,8 +186,8 @@ function SpotForm({ spot, formType }) {
                     /></span>
                     {errors.price && <p className="error-msg">{errors.price}</p>}
                 </div>
-                <div>
-                    <h2>Liven up your spot with photos</h2>
+                <div className='form-section'>
+                    <h2 className='form-subheading'>Liven up your spot with photos</h2>
                     <p>Submit a link to at least one photo to publish your spot.</p>
                     <input
                         type="text"

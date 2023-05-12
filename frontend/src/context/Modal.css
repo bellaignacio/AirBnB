@@ -57,3 +57,8 @@
     color: #ffffff;
     border-color: #000000;
 }
+
+#modal-content > p {
+    margin: 10px 0px 0px;
+    padding: 0px 25px;
+}

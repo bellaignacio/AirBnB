@@ -1,5 +1,14 @@
+form {
+    width: 500px;
+}
+
 form > div {
     display: flex;
     justify-content: left;
     flex-direction: column;
+}
+
+form input,
+form button {
+    width: 100%;
 }

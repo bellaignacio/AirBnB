@@ -52,21 +52,21 @@ const removeSpot = (id) => {
 export const getAllSpots = () => async dispatch => {
     const response = await csrfFetch('/api/spots');
     const data = await response.json();
-    dispatch(loadAllSpots(data.Spots)); // includes only previewImage, avgRating
+    dispatch(loadAllSpots(data.Spots));
     return response;
 };
 
 export const getUserSpots = () => async dispatch => {
     const response = await csrfFetch('/api/spots/current');
     const data = await response.json();
-    dispatch(loadUserSpots(data.Spots)); // includes only previewImage, avgRating
+    dispatch(loadUserSpots(data.Spots));
     return response;
 };
 
 export const getSpot = (id) => async dispatch => {
     const response = await csrfFetch(`/api/spots/${id}`);
     const data = await response.json();
-    dispatch(loadCurrentSpot(data)); // includes numReviews, avgStarRating, SpotImages, Owner
+    dispatch(loadCurrentSpot(data));
     return response;
 };
 
@@ -103,7 +103,7 @@ export const createSpot = (spot) => async dispatch => {
     });
 
     const data = await spotResponse.json();
-    dispatch(addSpot(data)); // does not include review info, image info, owner info
+    dispatch(addSpot(data));
 
     if (previewImage) await csrfFetch(`/api/spots/${data.id}/images`, {
         method: 'POST',
@@ -155,12 +155,12 @@ export const updateSpot = (spot) => async dispatch => {
         lng,
         name,
         description,
-        price,
-        previewImage,
-        imageOne,
-        imageTwo,
-        imageThree,
-        imageFour
+        price
+        // previewImage,
+        // imageOne,
+        // imageTwo,
+        // imageThree,
+        // imageFour
     } = spot;
     const spotResponse = await csrfFetch(`/api/spots/${id}`, {
         method: 'PUT',
@@ -178,7 +178,7 @@ export const updateSpot = (spot) => async dispatch => {
     });
 
     const data = await spotResponse.json();
-    dispatch(editSpot(data)); // does not include review info, image info, owner info
+    dispatch(editSpot(data));
 
     // if (previewImage) await csrfFetch(`/api/spots/${data.id}/images`, {
     //     method: 'POST',
@@ -223,7 +223,6 @@ export const deleteSpot = (id) => async dispatch => {
     const response = await csrfFetch(`/api/spots/${id}`, {
         method: 'DELETE'
     });
-    // const data = await response.json();
     dispatch(removeSpot(id));
     return response;
 };

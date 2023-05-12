@@ -19,7 +19,7 @@ function ManageSpots() {
         <>
             <h1>Manage Spots</h1>
             <button className='accent' onClick={() => history.push('/spots/new')}>Create a New Spot</button>
-            {isLoaded && <SpotsIndex spots={spots} userOnly={true}/>}
+            {isLoaded && <SpotsIndex spots={spots} userOnly={true} />}
         </>
     );
 }

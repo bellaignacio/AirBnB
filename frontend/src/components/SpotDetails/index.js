@@ -79,12 +79,6 @@ function SpotDetails() {
                             <button className="primary reserve-btn" onClick={() => window.alert('Feature Coming Soon')}>Reserve</button>
                         </div>
                     </div>
-                    {/* <ul>
-                        {spot?.avgStarRating > 0 && <li>Average Rating: {spot?.avgStarRating}</li>}
-                        {spot?.numReviews === 0 && <li>New (No Reviews Yet)</li>}
-                        {spot?.numReviews === 1 && <li>1 Review</li>}
-                        {spot?.numReviews > 1 && <li>{spot?.numReviews} Reviews</li>}
-                    </ul> */}
                 </div>
             }
             {isReviewsLoaded &&
@@ -99,7 +93,6 @@ function SpotDetails() {
                                 buttonText="Post Your Review"
                             />
                         }
-                        {/* {(spot?.numReviews < 1 && isVisible) && <div>Be the first to post a review!</div>} */}
                     </div>
                     <div className='review-details-list'>
                         {(spot?.numReviews < 1 && isVisible) && <div>Be the first to post a review!</div>}

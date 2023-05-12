@@ -35,7 +35,7 @@ function CreateReviewModal({ id, setIsVisible }) {
         <>
             <h2>How was your stay?</h2>
             <form onSubmit={handleSubmit}>
-            {errors.message && <p className="error-msg">{errors.message}</p>}
+                {errors.message && <p className="error-msg">{errors.message}</p>}
                 <textarea
                     value={review}
                     onChange={(e) => setReview(e.target.value)}

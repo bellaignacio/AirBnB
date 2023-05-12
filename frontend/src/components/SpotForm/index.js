@@ -52,7 +52,6 @@ function SpotForm({ spot, formType }) {
         if (imageTwo && !imageTwo.endsWith('.png') && !imageTwo.endsWith('.jpg') && !imageTwo.endsWith('.jpeg')) frontendErrors.imageTwo = 'Image URL must end in .png, .jpg, .jpeg';
         if (imageThree && !imageThree.endsWith('.png') && !imageThree.endsWith('.jpg') && !imageThree.endsWith('.jpeg')) frontendErrors.imageThree = 'Image URL must end in .png, .jpg, .jpeg';
         if (imageFour && !imageFour.endsWith('.png') && !imageFour.endsWith('.jpg') && !imageFour.endsWith('.jpeg')) frontendErrors.imageFour = 'Image URL must end in .png, .jpg, .jpeg';
-        // could add same backend validations here (might as well)
         if (!country) frontendErrors.country = 'Country is required';
         if (!address) frontendErrors.address = 'Address is required';
         if (!city) frontendErrors.city = 'City is required';
@@ -69,13 +68,6 @@ function SpotForm({ spot, formType }) {
                 .then(res => history.push(`/spots/${res}`))
                 .catch(async (res) => {
                     const data = await res.json();
-                    // if (description.length < 30) data.errors.description = 'Description needs a minimum of 30 characters';
-                    // if (!previewImage) data.errors.previewImage = 'Preview image is required';
-                    // if (previewImage && !previewImage.endsWith('.png') && !previewImage.endsWith('.jpg') && !previewImage.endsWith('.jpeg')) data.errors.previewImage = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageOne && !imageOne.endsWith('.png') && !imageOne.endsWith('.jpg') && !imageOne.endsWith('.jpeg')) data.errors.imageOne = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageTwo && !imageTwo.endsWith('.png') && !imageTwo.endsWith('.jpg') && !imageTwo.endsWith('.jpeg')) data.errors.imageTwo = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageThree && !imageThree.endsWith('.png') && !imageThree.endsWith('.jpg') && !imageThree.endsWith('.jpeg')) data.errors.imageThree = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageFour && !imageFour.endsWith('.png') && !imageFour.endsWith('.jpg') && !imageFour.endsWith('.jpeg')) data.errors.imageFour = 'Image URL must end in .png, .jpg, .jpeg';
                     if (data && data.errors) {
                         setErrors(data.errors);
                     }
@@ -85,13 +77,6 @@ function SpotForm({ spot, formType }) {
                 .then(res => history.push(`/spots/${res}`))
                 .catch(async (res) => {
                     const data = await res.json();
-                    // if (description.length < 30) data.errors.description = 'Description needs a minimum of 30 characters';
-                    // if (!previewImage) data.errors.previewImage = 'Preview image is required';
-                    // if (previewImage && !previewImage.endsWith('.png') && !previewImage.endsWith('.jpg') && !previewImage.endsWith('.jpeg')) data.errors.previewImage = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageOne && !imageOne.endsWith('.png') && !imageOne.endsWith('.jpg') && !imageOne.endsWith('.jpeg')) data.errors.imageOne = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageTwo && !imageTwo.endsWith('.png') && !imageTwo.endsWith('.jpg') && !imageTwo.endsWith('.jpeg')) data.errors.imageTwo = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageThree && !imageThree.endsWith('.png') && !imageThree.endsWith('.jpg') && !imageThree.endsWith('.jpeg')) data.errors.imageThree = 'Image URL must end in .png, .jpg, .jpeg';
-                    // if (imageFour && !imageFour.endsWith('.png') && !imageFour.endsWith('.jpg') && !imageFour.endsWith('.jpeg')) data.errors.imageFour = 'Image URL must end in .png, .jpg, .jpeg';
                     if (data && data.errors) {
                         setErrors(data.errors);
                     }

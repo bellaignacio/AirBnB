@@ -86,10 +86,10 @@ function SpotForm({ spot, formType }) {
 
     return (
         <>
-            <h1>{formType === 'Create Spot' ? "Create a New Spot" : "Update your Spot"}</h1>
+            <h1 className='form-header'>{formType === 'Create Spot' ? "Create a New Spot" : "Update your Spot"}</h1>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <h2>Where's your place located?</h2>
+                <div className='form-section'>
+                    <h2 className='form-subheading'>Where's your place located?</h2>
                     <p>Guests will only get your exact address once they booked a reservation.</p>
                     <label>
                         Country
@@ -152,8 +152,8 @@ function SpotForm({ spot, formType }) {
                     </label>
                     {errors.lng && <p className="error-msg">{errors.lng}</p>}
                 </div>
-                <div>
-                    <h2>Describe your place to guests</h2>
+                <div className='form-section'>
+                    <h2 className='form-subheading'>Describe your place to guests</h2>
                     <p>Mention the best features of your space, any special amenities like
                         fast wifi or parking, and what you love about the neighborhood.
                     </p>
@@ -164,8 +164,8 @@ function SpotForm({ spot, formType }) {
                     />
                     {errors.description && <p className="error-msg">{errors.description}</p>}
                 </div>
-                <div>
-                    <h2>Create a title for your spot</h2>
+                <div className='form-section'>
+                    <h2 className='form-subheading'>Create a title for your spot</h2>
                     <p>Catch guests' attention with a spot title that highlights what makes your space special.</p>
                     <input
                         type="text"
@@ -175,10 +175,10 @@ function SpotForm({ spot, formType }) {
                     />
                     {errors.name && <p className="error-msg">{errors.name}</p>}
                 </div>
-                <div>
-                    <h2>Set a base price for your spot</h2>
+                <div className='form-section'>
+                    <h2 className='form-subheading'>Set a base price for your spot</h2>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-                    <span>$<input
+                    <span className='price-input'>$<input
                         type="number"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
@@ -186,8 +186,8 @@ function SpotForm({ spot, formType }) {
                     /></span>
                     {errors.price && <p className="error-msg">{errors.price}</p>}
                 </div>
-                <div>
-                    <h2>Liven up your spot with photos</h2>
+                <div className='form-section'>
+                    <h2 className='form-subheading'>Liven up your spot with photos</h2>
                     <p>Submit a link to at least one photo to publish your spot.</p>
                     <input
                         type="text"

@@ -1,14 +1,31 @@
-form {
+h1.form-header, form {
     width: 500px;
+    margin: auto;
+    padding-top: 20px;
 }
 
-form > div {
+h2.form-subheading {
+    margin: 10px 0px;
+}
+
+div.form-section {
     display: flex;
     justify-content: left;
     flex-direction: column;
+    padding-bottom: 20px
+}
+
+div.form-section > p {
+    margin-top: 10px;
 }
 
 form input,
 form button {
     width: 100%;
+}
+
+.price-input {
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }

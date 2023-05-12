@@ -15,27 +15,27 @@
 
 .spot-details-imgs {
     display: grid;
-    grid-template-columns: 360px 180px 180px;
-    grid-template-rows: 180px 180px;
+    grid-template-columns: 440px 220px 220px;
+    grid-template-rows: 220px 220px;
     grid-template-areas:
     'preview alt-1 alt-3'
     'preview alt-2 alt-4';
-    /* row-gap: 10px; */
     margin: auto;
+    padding: 20px;
 }
 
 .spot-preview-img {
     grid-area: preview;
-    height: 340px;
-    width: 340px;
+    height: 420px;
+    width: 420px;
     object-fit: cover;
     align-self: center;
     padding: 10px;
 }
 
 .spot-alt-img {
-    height: 160px;
-    width: 160px;
+    height: 200px;
+    width: 200px;
     object-fit: cover;
     align-self: center;
     padding: 10px

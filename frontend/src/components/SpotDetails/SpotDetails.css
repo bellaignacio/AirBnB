@@ -87,19 +87,14 @@
     grid-area: reserve;
 }
 
-.review-details {
-    padding-top: 20px
-}
-
 .review-details-header {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 200px;
+    width: 250px;
 }
 
 .review-info {
-    margin: 25px 0px;
+    margin: 0px 0px 25px;
 }
 
 .review-info > * {

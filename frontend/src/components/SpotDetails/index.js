@@ -84,9 +84,9 @@ function SpotDetails() {
             {isReviewsLoaded &&
                 <div className='review-details'>
                     <div className='review-details-header'>
-                        <div>
-                            &#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}{spot?.numReviews >= 1 && <span>   &#8231;   {spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</span>}
-                        </div>
+                        <h2>
+                            &#9733;   {spot.avgStarRating === 0 ? "New" : `${spot.avgStarRating.toFixed(1)}`}{spot?.numReviews >= 1 && <>   &#8231;   {spot?.numReviews} Review{spot?.numReviews > 1 ? 's' : ''}</>}
+                        </h2>
                         {isVisible &&
                             <OpenModalButton
                                 modalComponent={<CreateReviewModal id={spot.id} setIsVisible={setIsVisible} />}

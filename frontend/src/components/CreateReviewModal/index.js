@@ -4,7 +4,7 @@ import { useModal } from "../../context/Modal";
 import * as reviewsActions from "../../store/reviews";
 import './CreateReview.css';
 
-function CreateReviewModal({ id }) {
+function CreateReviewModal({ id, setIsVisible }) {
     const { closeModal } = useModal();
     const dispatch = useDispatch();
     const [review, setReview] = useState('');
@@ -22,6 +22,7 @@ function CreateReviewModal({ id }) {
         };
         dispatch(reviewsActions.createReview(payload))
             .then(closeModal)
+            .then(() => setIsVisible(false))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.message) {

@@ -12,6 +12,7 @@ import './SpotDetails.css';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 function SpotDetails() {
+    console.log('SPOT DETAILS RERENDERS');
     const { id } = useParams();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
@@ -21,7 +22,10 @@ function SpotDetails() {
     const [isReviewsLoaded, setIsReviewsLoaded] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
 
+    console.log('BEFORE USEEFFECT ISVISIBLE', isVisible);
+
     useEffect(() => {
+        console.log('USEEFFECT START ISVISIBLE', isVisible);
         async function fetchData() {
             await dispatch(spotsActions.getSpot(id))
                 .then(() => setIsSpotLoaded(true));
@@ -29,17 +33,61 @@ function SpotDetails() {
                 .then(() => setIsReviewsLoaded(true));
         }
         fetchData();
-        if (sessionUser) {
-            if (sessionUser.id !== spot.ownerId) {
-                let target = true;
-                spotReviews.forEach(reviewObj => {
-                    if (reviewObj.userId === sessionUser.id) target = false;
-                });
-                setIsVisible(target);
-            }
-        }
+        console.log('AFTER FETCH DATA ISVISIBLE', isVisible);
+        // if (sessionUser) {
+        //     console.log('IN LOGIC USER ID', sessionUser.id);
+        //     console.log('IN LOGIC SPOT OWNER ID', spot.ownerId);
+        //     if (sessionUser.id !== spot.ownerId) {
+        //         let target = true;
+        //         console.log('IN LOGIC BEFORE ISVISIBLE', isVisible);
+        //         spotReviews.forEach(reviewObj => {
+        //             if (reviewObj.userId === sessionUser.id) target = false;
+        //         });
+        //         setIsVisible(target);
+        //         console.log('IN LOGIC AFTER ISVISIBLE', isVisible);
+        //     }
+        // }
+        console.log('USEEFFECT END ISVISIBLE', isVisible);
     }, [dispatch]);
 
+    useEffect(() => {
+        if (isSpotLoaded && isReviewsLoaded) {
+            console.log('THIS RUNS!!!!')
+            if (sessionUser) {
+                console.log('IN LOGIC USER ID', sessionUser.id);
+                console.log('IN LOGIC SPOT OWNER ID', spot.ownerId);
+                if (sessionUser.id !== spot.ownerId) {
+                    let target = true;
+                    console.log('IN LOGIC BEFORE ISVISIBLE', isVisible);
+                    spotReviews.forEach(reviewObj => {
+                        if (reviewObj.userId === sessionUser.id) target = false;
+                    });
+                    console.log('IN LOGIC TARGET', target);
+                    if (target === true) setIsVisible(true);
+                    console.log('IN LOGIC AFTER ISVISIBLE', isVisible);
+                }
+            }
+        }
+    }, [isSpotLoaded, isReviewsLoaded]);
+    // if (isSpotLoaded && isReviewsLoaded) {
+    //     console.log('THIS RUNS!!!!')
+    //     if (sessionUser) {
+    //         console.log('IN LOGIC USER ID', sessionUser.id);
+    //         console.log('IN LOGIC SPOT OWNER ID', spot.ownerId);
+    //         if (sessionUser.id !== spot.ownerId) {
+    //             let target = true;
+    //             console.log('IN LOGIC BEFORE ISVISIBLE', isVisible);
+    //             spotReviews.forEach(reviewObj => {
+    //                 if (reviewObj.userId === sessionUser.id) target = false;
+    //             });
+    //             console.log('IN LOGIC TARGET', target);
+    //             if (target === true) setIsVisible(true);
+    //             console.log('IN LOGIC AFTER ISVISIBLE', isVisible);
+    //         }
+    //     }
+    // }
+
+    console.log('BEFORE RETURN ISVISIBLE', isVisible);
     return (
         <div className='spot-details-container'>
             {isSpotLoaded &&
@@ -90,7 +138,7 @@ function SpotDetails() {
                         </div>
                         {isVisible &&
                             <OpenModalButton
-                                modalComponent={<CreateReviewModal id={spot.id} />}
+                                modalComponent={<CreateReviewModal id={spot.id} setIsVisible={setIsVisible}/>}
                                 buttonText="Post Your Review"
                             />
                         }
@@ -108,7 +156,7 @@ function SpotDetails() {
                                         <p className='review-date'>{reviewMonth} {reviewYear}</p>
                                         <p className='review-text'>{reviewObj.review}</p>
                                         {reviewObj.userId === sessionUser?.id && <OpenModalButton
-                                            modalComponent={<DeleteReviewModal id={reviewObj.id} spotId={reviewObj.spotId}/>}
+                                            modalComponent={<DeleteReviewModal id={reviewObj.id} spotId={reviewObj.spotId} setIsVisible={setIsVisible} />}
                                             buttonText="Delete"
                                         />}
                                     </div>

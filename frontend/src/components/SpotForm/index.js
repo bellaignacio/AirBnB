@@ -53,11 +53,11 @@ function SpotForm({ spot, formType }) {
         if (imageThree && !imageThree.endsWith('.png') && !imageThree.endsWith('.jpg') && !imageThree.endsWith('.jpeg')) frontendErrors.imageThree = 'Image URL must end in .png, .jpg, .jpeg';
         if (imageFour && !imageFour.endsWith('.png') && !imageFour.endsWith('.jpg') && !imageFour.endsWith('.jpeg')) frontendErrors.imageFour = 'Image URL must end in .png, .jpg, .jpeg';
         if (!country) frontendErrors.country = 'Country is required';
-        if (!address) frontendErrors.address = 'Address is required';
+        if (!address) frontendErrors.address = 'Street Address is required';
         if (!city) frontendErrors.city = 'City is required';
         if (!state) frontendErrors.state = 'State is required';
-        if (!lat) frontendErrors.lat = 'Latitude is required';
-        if (!lng) frontendErrors.lng = 'Longitude is required';
+        if (!lat) frontendErrors.lat = 'Latitude must be within -90 and 90 degrees';
+        if (!lng) frontendErrors.lng = 'Longitude must be within -180 and 180 degrees';
         if (!name) frontendErrors.name = 'Name is required';
         if (!price) frontendErrors.price = 'Price is required';
 

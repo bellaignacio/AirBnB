@@ -4,7 +4,7 @@
 
 .spot-details-container {
     padding: 20px;
-    width: 80%;
+    width: 90%;
     margin: auto;
 }
 
@@ -15,8 +15,8 @@
 
 .spot-details-imgs {
     display: grid;
-    grid-template-columns: 440px 220px 220px;
-    grid-template-rows: 220px 220px;
+    grid-template-columns: 620px 310px 310px;
+    grid-template-rows: 310px 310px;
     grid-template-areas:
     'preview alt-1 alt-3'
     'preview alt-2 alt-4';
@@ -26,16 +26,16 @@
 
 .spot-preview-img {
     grid-area: preview;
-    height: 420px;
-    width: 420px;
+    height: 610px;
+    width: 610px;
     object-fit: cover;
     align-self: center;
     padding: 10px;
 }
 
 .spot-alt-img {
-    height: 200px;
-    width: 200px;
+    height: 300px;
+    width: 300px;
     object-fit: cover;
     align-self: center;
     padding: 10px

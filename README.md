@@ -19,7 +19,7 @@ SpotSurfing is an AirBnB clone where users can add spots to their profile, book 
  2. Create a `.env` file inside the backend directory with the proper settings for your development environment. See the `example.env` file.
  3. Inside the root directory, backend directory, and frontend directory, run the following command to install JavaScript dependencies.
 	```
-	  npm install
+	npm install
 	```
  4. Inside the backend directory, run the following command to create and seed the database, and start up the backend server.
 	```
@@ -27,7 +27,7 @@ SpotSurfing is an AirBnB clone where users can add spots to their profile, book 
 	```
  5. Inside the frontend directory, run the following command to start up the frontend server.
 	```
-	  npm start
+	npm start
 	```
 
 ## Site In Action
